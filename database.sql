@@ -2,12 +2,12 @@
 -- MySQL Database Schema for GuviHCL Internship Authentication System
 
 -- Create database
-CREATE DATABASE IF NOT EXISTS internship_auth
+CREATE DATABASE IF NOT EXISTS internship_app
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_unicode_ci;
 
 -- Use the database
-USE internship_auth;
+USE internship_app;
 
 -- Drop existing table if exists (for clean setup)
 DROP TABLE IF EXISTS users;

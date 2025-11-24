@@ -128,12 +128,12 @@ $cfg['Servers'][$i]['favorite'] = 'pma__favorite';
 -- MySQL Database Schema for GuviHCL Internship Authentication System
 
 -- Create database
-CREATE DATABASE IF NOT EXISTS internship_auth
+CREATE DATABASE IF NOT EXISTS internship_app
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_unicode_ci;
 
 -- Use the database
-USE internship_auth;
+USE internship_app;
 
 -- Drop existing table if exists (for clean setup)
 DROP TABLE IF EXISTS users;
@@ -1739,7 +1739,7 @@ ini_set('display_errors', 0);
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
-define('DB_NAME', 'internship_auth');
+define('DB_NAME', 'internship_app');
 
 // MySQL Connection
 $mysqli = null;
@@ -1786,7 +1786,7 @@ try {
     require_once __DIR__ . '/../../vendor/autoload.php';
     
     $mongoClient = new MongoDB\Client("mongodb://127.0.0.1:27017");
-    $mongoDb = $mongoClient->internship_auth;
+    $mongoDb = $mongoClient->internship_app;
     $profilesCollection = $mongoDb->profiles;
 } catch (Exception $e) {
     // MongoDB not available - log error but continue

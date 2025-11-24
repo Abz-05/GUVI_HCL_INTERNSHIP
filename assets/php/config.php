@@ -18,7 +18,7 @@ ini_set('display_errors', 0);
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
-define('DB_NAME', 'internship_auth');
+define('DB_NAME', 'internship_app');
 
 // MySQL Connection
 $mysqli = null;
@@ -65,7 +65,7 @@ try {
     require_once __DIR__ . '/../../vendor/autoload.php';
     
     $mongoClient = new MongoDB\Client("mongodb://127.0.0.1:27017");
-    $mongoDb = $mongoClient->internship_auth;
+    $mongoDb = $mongoClient->internship_app;
     $profilesCollection = $mongoDb->profiles;
 } catch (Exception $e) {
     // MongoDB not available - log error but continue
