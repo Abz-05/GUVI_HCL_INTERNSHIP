@@ -42,10 +42,15 @@ if (is_dir($sessionDir) && is_writable($sessionDir)) {
     $tests['sessions'] = ['status' => 'SUCCESS', 'message' => 'Sessions directory exists and is writable'];
 } else {
     if (!is_dir($sessionDir)) {
-        mkdir($sessionDir, 0755, true);
-        $tests['sessions'] = ['status' => 'SUCCESS', 'message' => 'Sessions directory created'];
+        @mkdir($sessionDir, 0755, true);
+        if (is_dir($sessionDir) && is_writable($sessionDir)) {
+            $tests['sessions'] = ['status' => 'SUCCESS', 'message' => 'Sessions directory created'];
+        } else {
+            $tests['sessions'] = ['status' => 'FAILED', 'error' => 'Could not create sessions directory'];
+        }
     } else {
-        $tests['sessions'] = ['status' => 'WARNING', 'message' => 'Sessions directory not writable'];
+        @chmod($sessionDir, 0755);
+        $tests['sessions'] = ['status' => 'WARNING', 'message' => 'Sessions directory exists but permissions may be incorrect'];
     }
 }
 

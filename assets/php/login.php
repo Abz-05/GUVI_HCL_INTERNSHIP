@@ -8,10 +8,7 @@ require_once __DIR__ . '/config.php';
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respondWithError("Method not allowed", 405);
 }
-// Log successful login (if MongoDB available)
-if (function_exists('logToMongo')) {
-    logToMongo($user['id'], 'LOGIN', ['email' => $email]);
-}
+
 // Get request body
 $data = getRequestBody();
 
@@ -75,13 +72,15 @@ $sessionData = [
     'logged_in_at' => date('Y-m-d H:i:s')
 ];
 
-// Store session in Redis (1 hour expiry)
+// Store session in file storage (1 hour expiry)
 $sessionStored = storeSession($token, $sessionData, 3600);
 
 if (!$sessionStored) {
-    // If Redis fails, still allow login but log the error
-    error_log("Warning: Session not stored in Redis for user " . $user['id']);
+    error_log("Warning: Session not stored for user " . $user['id']);
 }
+
+// Log successful login
+logToMongo($user['id'], 'LOGIN', ['email' => $user['email'], 'username' => $user['username']]);
 
 // Send success response with token
 respondWithSuccess("Login successful", [

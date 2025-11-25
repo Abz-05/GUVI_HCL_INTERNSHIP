@@ -1,32 +1,9 @@
 <?php
 // assets/php/register.php
 // User registration endpoint
-// Allow CORS
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
-header('Content-Type: application/json');
-
-// Handle preflight requests
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit;
-}
-
-// Only allow POST
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    echo json_encode(['success' => false, 'message' => 'Method not allowed']);
-    exit;
-}
 
 require_once __DIR__ . '/config.php';
 
-// Rest of your registration code...
-// Log to MongoDB (if available)
-if (function_exists('logToMongo')) {
-    logToMongo($userId, 'REGISTER', ['email' => $email]);
-}
 // Only allow POST requests
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respondWithError("Method not allowed", 405);
@@ -146,9 +123,11 @@ try {
         ]);
     }
 } catch (Exception $e) {
-    // Log error but don't fail registration
-    error_log("MongoDB insert failed: " . $e->getMessage());
+    error_log("MongoDB profile insert failed: " . $e->getMessage());
 }
+
+// Log registration event
+logToMongo($userId, 'REGISTER', ['email' => $email, 'username' => $username]);
 
 // Send success response
 respondWithSuccess("Registration successful! You can now login.", [

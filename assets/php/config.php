@@ -11,6 +11,8 @@ header('Access-Control-Allow-Headers: Content-Type');
 // Error reporting (disable in production)
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/../../error.log');
 
 // ============================================
 // MySQL Configuration
@@ -31,6 +33,7 @@ try {
     
     $mysqli->set_charset("utf8mb4");
 } catch (Exception $e) {
+    error_log("MySQL Connection Error: " . $e->getMessage());
     respondWithError("Database connection failed", 500);
 }
 
@@ -41,7 +44,12 @@ define('SESSION_DIR', __DIR__ . '/../../sessions');
 
 // Create sessions directory if it doesn't exist
 if (!is_dir(SESSION_DIR)) {
-    mkdir(SESSION_DIR, 0755, true);
+    @mkdir(SESSION_DIR, 0755, true);
+}
+
+// Make sure sessions directory is writable
+if (!is_writable(SESSION_DIR)) {
+    @chmod(SESSION_DIR, 0755);
 }
 
 // ============================================
@@ -51,10 +59,10 @@ $mongoClient = null;
 $mongoDb = null;
 $profilesCollection = null;
 
-// Check if MongoDB extension is loaded
-if (extension_loaded('mongodb')) {
+// Check if vendor autoload exists
+if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     try {
-        require_once __DIR__ . '/../../vendor/autoload.php';
+        require_once __DIR__ . '/vendor/autoload.php';
         
         $mongoClient = new MongoDB\Client(
             "mongodb+srv://abzanavarhath_db_user:Abzu%232005@abzanacluster21.veewqjw.mongodb.net/?retryWrites=true&w=majority&appName=AbzanaCluster21"
@@ -68,35 +76,9 @@ if (extension_loaded('mongodb')) {
         $profilesCollection = null;
     }
 } else {
-    // MongoDB extension not loaded - continue without it
-    error_log("MongoDB extension not loaded - logging will be disabled");
+    error_log("MongoDB vendor autoload not found - MongoDB features will be disabled");
 }
 
-/**
- * Log to MongoDB (safe wrapper)
- */
-function logToMongo($userId, $action, $details = []) {
-    global $profilesCollection;
-    
-    if ($profilesCollection === null) {
-        // MongoDB not available - skip logging
-        return false;
-    }
-    
-    try {
-        $profilesCollection->insertOne([
-            'user_id' => $userId,
-            'action' => $action,
-            'details' => $details,
-            'timestamp' => new MongoDB\BSON\UTCDateTime(),
-            'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown'
-        ]);
-        return true;
-    } catch (Exception $e) {
-        error_log("MongoDB logging failed: " . $e->getMessage());
-        return false;
-    }
-}
 // ============================================
 // Helper Functions
 // ============================================
@@ -273,6 +255,31 @@ function getRequestBody() {
     }
     
     return $data;
+}
+
+/**
+ * Log to MongoDB (safe wrapper)
+ */
+function logToMongo($userId, $action, $details = []) {
+    global $profilesCollection;
+    
+    if ($profilesCollection === null) {
+        return false;
+    }
+    
+    try {
+        $profilesCollection->insertOne([
+            'user_id' => $userId,
+            'action' => $action,
+            'details' => $details,
+            'timestamp' => new MongoDB\BSON\UTCDateTime(),
+            'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown'
+        ]);
+        return true;
+    } catch (Exception $e) {
+        error_log("MongoDB logging failed: " . $e->getMessage());
+        return false;
+    }
 }
 
 // ============================================

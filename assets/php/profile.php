@@ -9,11 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respondWithError("Method not allowed", 405);
 }
 
-// Log profile access (if MongoDB available)
-if (function_exists('logToMongo')) {
-    logToMongo($userId, 'PROFILE_UPDATE', []);
-}
-
 // Get request body
 $data = getRequestBody();
 
@@ -82,6 +77,9 @@ if ($action === 'get') {
         error_log("MongoDB fetch failed: " . $e->getMessage());
     }
     
+    // Log profile access
+    logToMongo($userId, 'PROFILE_VIEW', []);
+    
     // Merge data
     $userData = array_merge($user, $profileData);
     
@@ -140,6 +138,9 @@ elseif ($action === 'update') {
         respondWithError("Failed to update profile: " . $e->getMessage(), 500);
     }
     
+    // Log profile update
+    logToMongo($userId, 'PROFILE_UPDATE', $updateData);
+    
     respondWithSuccess("Profile updated successfully");
 }
 
@@ -147,8 +148,11 @@ elseif ($action === 'update') {
 // Handle LOGOUT action - Delete session
 // ============================================
 elseif ($action === 'logout') {
-    // Delete session from Redis
+    // Delete session from file storage
     deleteSession($token);
+    
+    // Log logout event
+    logToMongo($userId, 'LOGOUT', []);
     
     respondWithSuccess("Logged out successfully");
 }
