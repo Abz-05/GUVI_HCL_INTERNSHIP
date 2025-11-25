@@ -23,7 +23,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 require_once __DIR__ . '/config.php';
 
 // Rest of your registration code...
-
+// Log to MongoDB (if available)
+if (function_exists('logToMongo')) {
+    logToMongo($userId, 'REGISTER', ['email' => $email]);
+}
 // Only allow POST requests
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respondWithError("Method not allowed", 405);

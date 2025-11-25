@@ -9,6 +9,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respondWithError("Method not allowed", 405);
 }
 
+// Log profile access (if MongoDB available)
+if (function_exists('logToMongo')) {
+    logToMongo($userId, 'PROFILE_UPDATE', []);
+}
+
 // Get request body
 $data = getRequestBody();
 

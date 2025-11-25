@@ -45,33 +45,58 @@ if (!is_dir(SESSION_DIR)) {
 }
 
 // ============================================
-// MongoDB Configuration
+// MongoDB Configuration (Optional)
 // ============================================
 $mongoClient = null;
 $mongoDb = null;
 $profilesCollection = null;
 
-try {
-    // Check if MongoDB library is available
-    if (!class_exists('MongoDB\Client')) {
-        throw new Exception("MongoDB library not installed");
+// Check if MongoDB extension is loaded
+if (extension_loaded('mongodb')) {
+    try {
+        require_once __DIR__ . '/../../vendor/autoload.php';
+        
+        $mongoClient = new MongoDB\Client(
+            "mongodb+srv://abzanavarhath_db_user:Abzu%232005@abzanacluster21.veewqjw.mongodb.net/?retryWrites=true&w=majority&appName=AbzanaCluster21"
+        );
+        
+        $mongoDb = $mongoClient->selectDatabase("internship_app");
+        $profilesCollection = $mongoDb->profiles;
+        
+    } catch (Exception $e) {
+        error_log("MongoDB connection failed: " . $e->getMessage());
+        $profilesCollection = null;
     }
-    
-    require_once __DIR__ . '/../../vendor/autoload.php';
-    
-    $mongoClient = new MongoDB\Client(
-        "mongodb+srv://abzanavarhath_db_user:Abzu%232005@abzanacluster21.veewqjw.mongodb.net/?retryWrites=true&w=majority&appName=AbzanaCluster21"
-    );
-    
-    $mongoDb = $mongoClient->selectDatabase("internship_app");
-    $profilesCollection = $mongoDb->profiles;
-    
-} catch (Exception $e) {
-    // MongoDB not available - log error but continue
-    error_log("MongoDB connection failed: " . $e->getMessage());
-    $profilesCollection = null;
+} else {
+    // MongoDB extension not loaded - continue without it
+    error_log("MongoDB extension not loaded - logging will be disabled");
 }
 
+/**
+ * Log to MongoDB (safe wrapper)
+ */
+function logToMongo($userId, $action, $details = []) {
+    global $profilesCollection;
+    
+    if ($profilesCollection === null) {
+        // MongoDB not available - skip logging
+        return false;
+    }
+    
+    try {
+        $profilesCollection->insertOne([
+            'user_id' => $userId,
+            'action' => $action,
+            'details' => $details,
+            'timestamp' => new MongoDB\BSON\UTCDateTime(),
+            'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown'
+        ]);
+        return true;
+    } catch (Exception $e) {
+        error_log("MongoDB logging failed: " . $e->getMessage());
+        return false;
+    }
+}
 // ============================================
 // Helper Functions
 // ============================================

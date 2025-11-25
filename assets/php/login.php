@@ -8,7 +8,10 @@ require_once __DIR__ . '/config.php';
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respondWithError("Method not allowed", 405);
 }
-
+// Log successful login (if MongoDB available)
+if (function_exists('logToMongo')) {
+    logToMongo($user['id'], 'LOGIN', ['email' => $email]);
+}
 // Get request body
 $data = getRequestBody();
 
