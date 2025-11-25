@@ -1,260 +1,3 @@
-<?php
-/*
- * phpMyAdmin configuration file
- * Drop this file as config.inc.php into your phpMyAdmin folder.
- * Using auth_type = 'config' will make phpMyAdmin log in automatically with the username below.
- * (If you prefer to enter credentials on login page, change auth_type to 'cookie' and remove user/pass lines.)
- */
-
-/* Blowfish secret - used to encrypt cookies (must be long and random in production) */
-$cfg['blowfish_secret'] = 'Abzu#2005';
-
-/* Servers configuration */
-$i = 0;
-$i++;
-
-/* Authentication type and credentials */
-$cfg['Servers'][$i]['auth_type'] = 'config';      // 'config' = auto login; change to 'cookie' if you want login prompt
-$cfg['Servers'][$i]['user']      = 'DD';          // MySQL user that phpMyAdmin should use
-$cfg['Servers'][$i]['password']  = 'Abzu#2005';   // That user's password
-$cfg['Servers'][$i]['extension'] = 'mysqli';
-$cfg['Servers'][$i]['AllowNoPassword'] = false;   // require password
-
-/* Connect to local MySQL via TCP (127.0.0.1) */
-$cfg['Servers'][$i]['host'] = '127.0.0.1';
-$cfg['Servers'][$i]['connect_type'] = 'tcp';
-$cfg['Servers'][$i]['port'] = ''; // default port (3306). Change if your MySQL runs on other port.
-
-/* Control user for advanced features (must exist in MySQL) */
-$cfg['Servers'][$i]['controluser'] = 'pma';
-$cfg['Servers'][$i]['controlpass'] = 'Abzu#2005';
-
-/* phpMyAdmin configuration storage database and tables (if created) */
-$cfg['Servers'][$i]['pmadb'] = 'phpmyadmin';
-$cfg['Servers'][$i]['bookmarktable'] = 'pma__bookmark';
-$cfg['Servers'][$i]['relation'] = 'pma__relation';
-$cfg['Servers'][$i]['table_info'] = 'pma__table_info';
-$cfg['Servers'][$i]['table_coords'] = 'pma__table_coords';
-$cfg['Servers'][$i]['pdf_pages'] = 'pma__pdf_pages';
-$cfg['Servers'][$i]['column_info'] = 'pma__column_info';
-$cfg['Servers'][$i]['history'] = 'pma__history';
-$cfg['Servers'][$i]['designer_coords'] = 'pma__designer_coords';
-$cfg['Servers'][$i]['tracking'] = 'pma__tracking';
-$cfg['Servers'][$i]['userconfig'] = 'pma__userconfig';
-$cfg['Servers'][$i]['recent'] = 'pma__recent';
-$cfg['Servers'][$i]['table_uiprefs'] = 'pma__table_uiprefs';
-$cfg['Servers'][$i]['users'] = 'pma__users';
-$cfg['Servers'][$i]['usergroups'] = 'pma__usergroups';
-$cfg['Servers'][$i]['navigationhiding'] = 'pma__navigationhiding';
-$cfg['Servers'][$i]['savedsearches'] = 'pma__savedsearches';
-$cfg['Servers'][$i]['central_columns'] = 'pma__central_columns';
-$cfg['Servers'][$i]['designer_settings'] = 'pma__designer_settings';
-$cfg['Servers'][$i]['export_templates'] = 'pma__export_templates';
-$cfg['Servers'][$i]['favorite'] = 'pma__favorite';
-
-/* Other general settings */
-$cfg['Lang'] = '';
-$cfg['DefaultLang'] = 'en';
-$cfg['UploadDir'] = '';
-$cfg['SaveDir'] = '';
-
-/* End of file */
-?>
-
-
-<?php
-/*
- * This is needed for cookie based authentication to encrypt password in
- * cookie
- */
-$cfg['blowfish_secret'] = 'xampp'; /* YOU SHOULD CHANGE THIS FOR A MORE SECURE COOKIE AUTH! */
-
-/*
- * Servers configuration
- */
-$i = 0;
-
-/*
- * First server
- */
-$i++;
-
-/* Authentication type and info */
-$cfg['Servers'][$i]['auth_type'] = 'config';
-$cfg['Servers'][$i]['user'] = 'root';
-$cfg['Servers'][$i]['password'] = '';
-$cfg['Servers'][$i]['extension'] = 'mysqli';
-$cfg['Servers'][$i]['AllowNoPassword'] = true;
-$cfg['Lang'] = '';
-
-/* Bind to the localhost ipv4 address and tcp */
-$cfg['Servers'][$i]['host'] = '127.0.0.1';
-$cfg['Servers'][$i]['connect_type'] = 'tcp';
-
-/* User for advanced features */
-$cfg['Servers'][$i]['controluser'] = 'pma';
-$cfg['Servers'][$i]['controlpass'] = 'Abzu#2005';
-
-/* Advanced phpMyAdmin features */
-$cfg['Servers'][$i]['pmadb'] = 'phpmyadmin';
-$cfg['Servers'][$i]['bookmarktable'] = 'pma__bookmark';
-$cfg['Servers'][$i]['relation'] = 'pma__relation';
-$cfg['Servers'][$i]['table_info'] = 'pma__table_info';
-$cfg['Servers'][$i]['table_coords'] = 'pma__table_coords';
-$cfg['Servers'][$i]['pdf_pages'] = 'pma__pdf_pages';
-$cfg['Servers'][$i]['column_info'] = 'pma__column_info';
-$cfg['Servers'][$i]['history'] = 'pma__history';
-$cfg['Servers'][$i]['designer_coords'] = 'pma__designer_coords';
-$cfg['Servers'][$i]['tracking'] = 'pma__tracking';
-$cfg['Servers'][$i]['userconfig'] = 'pma__userconfig';
-$cfg['Servers'][$i]['recent'] = 'pma__recent';
-$cfg['Servers'][$i]['table_uiprefs'] = 'pma__table_uiprefs';
-$cfg['Servers'][$i]['users'] = 'pma__users';
-$cfg['Servers'][$i]['usergroups'] = 'pma__usergroups';
-$cfg['Servers'][$i]['navigationhiding'] = 'pma__navigationhiding';
-$cfg['Servers'][$i]['savedsearches'] = 'pma__savedsearches';
-$cfg['Servers'][$i]['central_columns'] = 'pma__central_columns';
-$cfg['Servers'][$i]['designer_settings'] = 'pma__designer_settings';
-$cfg['Servers'][$i]['export_templates'] = 'pma__export_templates';
-$cfg['Servers'][$i]['favorite'] = 'pma__favorite';
-
-/*
- * End of servers configuration
- */
-
-?>
-
--- database.sql
--- MySQL Database Schema for GuviHCL Internship Authentication System
-
--- Create database
-CREATE DATABASE IF NOT EXISTS internship_app
-CHARACTER SET utf8mb4
-COLLATE utf8mb4_unicode_ci;
-
--- Use the database
-USE internship_app;
-
--- Drop existing table if exists (for clean setup)
-DROP TABLE IF EXISTS users;
-
--- Create users table
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(150) NOT NULL UNIQUE,
-    username VARCHAR(100) NOT NULL UNIQUE,
-    password_hash VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    
-    -- Indexes for faster queries
-    INDEX idx_email (email),
-    INDEX idx_username (username),
-    INDEX idx_created_at (created_at)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Insert sample user for testing (password: test123)
-INSERT INTO users (email, username, password_hash, created_at) VALUES
-('test@example.com', 'testuser', '$2y$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5lNjPXr8Y8lVe', NOW());
-
--- Verify table structure
-DESCRIBE users;
-
--- Display success message
-SELECT 'Database and table created successfully!' AS Status;
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome - GuviHCL Auth System</title>
-
-    <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
-</head>
-
-<body>
-    <div class="page-wrapper">
-        <div class="container">
-            <div class="row justify-content-center align-items-center min-vh-100">
-                <div class="col-lg-5 col-md-7 col-sm-9">
-                    <div class="glass-card text-center">
-                        <div class="card-body p-5">
-                            <!-- Logo/Icon -->
-                            <div class="welcome-icon mb-4">
-                                <svg width="80" height="80" viewBox="0 0 100 100" fill="none">
-                                    <circle cx="50" cy="50" r="45" fill="url(#gradient1)" opacity="0.2" />
-                                    <path d="M50 20 L50 50 L70 70" stroke="url(#gradient1)" stroke-width="4"
-                                        stroke-linecap="round" />
-                                    <defs>
-                                        <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
-                                            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
-                                            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
-                                        </linearGradient>
-                                    </defs>
-                                </svg>
-                            </div>
-
-                            <h1 class="display-4 fw-bold mb-3 gradient-text">Welcome</h1>
-                            <p class="lead mb-4">Secure Authentication System</p>
-                            <p class="text-muted mb-5">
-                                Register your account and access your personalized profile dashboard
-                            </p>
-
-                            <!-- Action Buttons -->
-                            <div class="d-grid gap-3">
-                                <a href="register.html" class="btn btn-primary btn-lg btn-custom">
-                                    <span>Create Account</span>
-                                    <i class="arrow">→</i>
-                                </a>
-                                <a href="login.html" class="btn btn-outline-light btn-lg btn-custom-outline">
-                                    <span>Sign In</span>
-                                </a>
-                            </div>
-
-                            <!-- Features -->
-                            <div class="row mt-5 text-start">
-                                <div class="col-12 mb-3">
-                                    <div class="feature-item">
-                                        <span class="feature-icon">🔒</span>
-                                        <span class="feature-text">Secure Authentication</span>
-                                    </div>
-                                </div>
-                                <div class="col-12 mb-3">
-                                    <div class="feature-item">
-                                        <span class="feature-icon">⚡</span>
-                                        <span class="feature-text">Fast & Responsive</span>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="feature-item">
-                                        <span class="feature-icon">💼</span>
-                                        <span class="feature-text">Professional Dashboard</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Footer -->
-                    <div class="text-center mt-4">
-                        <p class="text-light small">
-                            Built for GuviHCL Internship &copy; 2024
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-
-</html>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -363,6 +106,186 @@ SELECT 'Database and table created successfully!' AS Status;
 
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - GuviHCL Auth System</title>
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Navbar -->
+        <nav class="navbar navbar-dark glass-navbar">
+            <div class="container">
+                <span class="navbar-brand mb-0 h1">
+                    <span class="gradient-text">Profile Dashboard</span>
+                </span>
+                <button class="btn btn-outline-light btn-sm" id="logout-btn">
+                    <span>Logout</span>
+                    <span>→</span>
+                </button>
+            </div>
+        </nav>
+        
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-md-10">
+                    <!-- Profile Card -->
+                    <div class="glass-card mb-4">
+                        <div class="card-body p-4 p-md-5">
+                            <!-- Header -->
+                            <div class="d-flex align-items-center mb-4">
+                                <div class="profile-avatar me-3">
+                                    <div class="avatar-circle">
+                                        <span id="avatar-initial">U</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3 class="mb-0 fw-bold gradient-text" id="display-name">Loading...</h3>
+                                    <p class="text-muted mb-0 small" id="display-email"></p>
+                                </div>
+                            </div>
+                            
+                            <!-- Alert Container -->
+                            <div id="alert-container"></div>
+                            
+                            <!-- Profile Form -->
+                            <form id="profile-form" novalidate>
+                                <div class="row">
+                                    <!-- Username (Read-only) -->
+                                    <div class="col-md-6 mb-3">
+                                        <label for="username" class="form-label">Username</label>
+                                        <input 
+                                            type="text" 
+                                            class="form-control form-control-custom" 
+                                            id="username" 
+                                            readonly
+                                        >
+                                    </div>
+                                    
+                                    <!-- Email (Read-only) -->
+                                    <div class="col-md-6 mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input 
+                                            type="email" 
+                                            class="form-control form-control-custom" 
+                                            id="email" 
+                                            readonly
+                                        >
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <!-- Age -->
+                                    <div class="col-md-6 mb-3">
+                                        <label for="age" class="form-label">Age</label>
+                                        <input 
+                                            type="number" 
+                                            class="form-control form-control-custom" 
+                                            id="age" 
+                                            placeholder="Enter your age"
+                                            min="1"
+                                            max="120"
+                                        >
+                                    </div>
+                                    
+                                    <!-- Date of Birth -->
+                                    <div class="col-md-6 mb-3">
+                                        <label for="dob" class="form-label">Date of Birth</label>
+                                        <input 
+                                            type="date" 
+                                            class="form-control form-control-custom" 
+                                            id="dob"
+                                        >
+                                    </div>
+                                </div>
+                                
+                                <!-- Contact -->
+                                <div class="mb-3">
+                                    <label for="contact" class="form-label">Contact Number</label>
+                                    <input 
+                                        type="tel" 
+                                        class="form-control form-control-custom" 
+                                        id="contact" 
+                                        placeholder="+1 234 567 8900"
+                                    >
+                                </div>
+                                
+                                <!-- Address -->
+                                <div class="mb-3">
+                                    <label for="address" class="form-label">Address</label>
+                                    <textarea 
+                                        class="form-control form-control-custom" 
+                                        id="address" 
+                                        rows="3"
+                                        placeholder="Enter your address"
+                                    ></textarea>
+                                </div>
+                                
+                                <!-- Bio -->
+                                <div class="mb-4">
+                                    <label for="bio" class="form-label">Bio</label>
+                                    <textarea 
+                                        class="form-control form-control-custom" 
+                                        id="bio" 
+                                        rows="3"
+                                        placeholder="Tell us about yourself"
+                                    ></textarea>
+                                </div>
+                                
+                                <!-- Submit Button -->
+                                <div class="d-grid">
+                                    <button 
+                                        type="submit" 
+                                        class="btn btn-primary btn-lg btn-custom"
+                                        id="submit-btn"
+                                    >
+                                        <span class="btn-text">Save Changes</span>
+                                        <span class="spinner-border spinner-border-sm d-none" role="status"></span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Account Info Card -->
+                    <div class="glass-card">
+                        <div class="card-body p-4">
+                            <h5 class="fw-bold mb-3">Account Information</h5>
+                            <div class="row">
+                                <div class="col-md-6 mb-2">
+                                    <p class="text-muted small mb-1">Member Since</p>
+                                    <p class="fw-semibold" id="member-since">Loading...</p>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <p class="text-muted small mb-1">Account Status</p>
+                                    <p class="fw-semibold text-success">
+                                        <span class="status-dot"></span> Active
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="assets/js/profile.js"></script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -463,14 +386,13 @@ SELECT 'Database and table created successfully!' AS Status;
 </body>
 
 </html>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile - GuviHCL Auth System</title>
+    <title>Welcome - GuviHCL Auth System</title>
 
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -481,137 +403,1403 @@ SELECT 'Database and table created successfully!' AS Status;
 
 <body>
     <div class="page-wrapper">
-        <!-- Navbar -->
-        <nav class="navbar navbar-dark glass-navbar">
-            <div class="container">
-                <span class="navbar-brand mb-0 h1">
-                    <span class="gradient-text">Profile Dashboard</span>
-                </span>
-                <button class="btn btn-outline-light btn-sm" id="logout-btn">
-                    <span>Logout</span>
-                    <span>→</span>
-                </button>
-            </div>
-        </nav>
-
-        <div class="container py-5">
-            <div class="row justify-content-center">
-                <div class="col-lg-8 col-md-10">
-                    <!-- Profile Card -->
-                    <div class="glass-card mb-4">
-                        <div class="card-body p-4 p-md-5">
-                            <!-- Header -->
-                            <div class="d-flex align-items-center mb-4">
-                                <div class="profile-avatar me-3">
-                                    <div class="avatar-circle">
-                                        <span id="avatar-initial">U</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h3 class="mb-0 fw-bold gradient-text" id="display-name">Loading...</h3>
-                                    <p class="text-muted mb-0 small" id="display-email"></p>
-                                </div>
+        <div class="container">
+            <div class="row justify-content-center align-items-center min-vh-100">
+                <div class="col-lg-5 col-md-7 col-sm-9">
+                    <div class="glass-card text-center">
+                        <div class="card-body p-5">
+                            <!-- Logo/Icon -->
+                            <div class="welcome-icon mb-4">
+                                <svg width="80" height="80" viewBox="0 0 100 100" fill="none">
+                                    <circle cx="50" cy="50" r="45" fill="url(#gradient1)" opacity="0.2" />
+                                    <path d="M50 20 L50 50 L70 70" stroke="url(#gradient1)" stroke-width="4"
+                                        stroke-linecap="round" />
+                                    <defs>
+                                        <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                                            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
                             </div>
 
-                            <!-- Alert Container -->
-                            <div id="alert-container"></div>
+                            <h1 class="display-4 fw-bold mb-3 gradient-text">Welcome</h1>
+                            <p class="lead mb-4">Secure Authentication System</p>
+                            <p class="text-muted mb-5">
+                                Register your account and access your personalized profile dashboard
+                            </p>
 
-                            <!-- Profile Form -->
-                            <form id="profile-form" novalidate>
-                                <div class="row">
-                                    <!-- Username (Read-only) -->
-                                    <div class="col-md-6 mb-3">
-                                        <label for="username" class="form-label">Username</label>
-                                        <input type="text" class="form-control form-control-custom" id="username"
-                                            readonly>
-                                    </div>
+                            <!-- Action Buttons -->
+                            <div class="d-grid gap-3">
+                                <a href="register.html" class="btn btn-primary btn-lg btn-custom">
+                                    <span>Create Account</span>
+                                    <i class="arrow">→</i>
+                                </a>
+                                <a href="login.html" class="btn btn-outline-light btn-lg btn-custom-outline">
+                                    <span>Sign In</span>
+                                </a>
+                            </div>
 
-                                    <!-- Email (Read-only) -->
-                                    <div class="col-md-6 mb-3">
-                                        <label for="email" class="form-label">Email</label>
-                                        <input type="email" class="form-control form-control-custom" id="email"
-                                            readonly>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <!-- Age -->
-                                    <div class="col-md-6 mb-3">
-                                        <label for="age" class="form-label">Age</label>
-                                        <input type="number" class="form-control form-control-custom" id="age"
-                                            placeholder="Enter your age" min="1" max="120">
-                                    </div>
-
-                                    <!-- Date of Birth -->
-                                    <div class="col-md-6 mb-3">
-                                        <label for="dob" class="form-label">Date of Birth</label>
-                                        <input type="date" class="form-control form-control-custom" id="dob">
+                            <!-- Features -->
+                            <div class="row mt-5 text-start">
+                                <div class="col-12 mb-3">
+                                    <div class="feature-item">
+                                        <span class="feature-icon">🔒</span>
+                                        <span class="feature-text">Secure Authentication</span>
                                     </div>
                                 </div>
-
-                                <!-- Contact -->
-                                <div class="mb-3">
-                                    <label for="contact" class="form-label">Contact Number</label>
-                                    <input type="tel" class="form-control form-control-custom" id="contact"
-                                        placeholder="+1 234 567 8900">
+                                <div class="col-12 mb-3">
+                                    <div class="feature-item">
+                                        <span class="feature-icon">⚡</span>
+                                        <span class="feature-text">Fast & Responsive</span>
+                                    </div>
                                 </div>
-
-                                <!-- Address -->
-                                <div class="mb-3">
-                                    <label for="address" class="form-label">Address</label>
-                                    <textarea class="form-control form-control-custom" id="address" rows="3"
-                                        placeholder="Enter your address"></textarea>
+                                <div class="col-12">
+                                    <div class="feature-item">
+                                        <span class="feature-icon">💼</span>
+                                        <span class="feature-text">Professional Dashboard</span>
+                                    </div>
                                 </div>
-
-                                <!-- Bio -->
-                                <div class="mb-4">
-                                    <label for="bio" class="form-label">Bio</label>
-                                    <textarea class="form-control form-control-custom" id="bio" rows="3"
-                                        placeholder="Tell us about yourself"></textarea>
-                                </div>
-
-                                <!-- Submit Button -->
-                                <div class="d-grid">
-                                    <button type="submit" class="btn btn-primary btn-lg btn-custom" id="submit-btn">
-                                        <span class="btn-text">Save Changes</span>
-                                        <span class="spinner-border spinner-border-sm d-none" role="status"></span>
-                                    </button>
-                                </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Account Info Card -->
-                    <div class="glass-card">
-                        <div class="card-body p-4">
-                            <h5 class="fw-bold mb-3">Account Information</h5>
-                            <div class="row">
-                                <div class="col-md-6 mb-2">
-                                    <p class="text-muted small mb-1">Member Since</p>
-                                    <p class="fw-semibold" id="member-since">Loading...</p>
-                                </div>
-                                <div class="col-md-6 mb-2">
-                                    <p class="text-muted small mb-1">Account Status</p>
-                                    <p class="fw-semibold text-success">
-                                        <span class="status-dot"></span> Active
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                    <!-- Footer -->
+                    <div class="text-center mt-4">
+                        <p class="text-light small">
+                            Built for GuviHCL Internship &copy; 2024
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-    <!-- Custom JS -->
-    <script src="assets/js/profile.js"></script>
 </body>
 
 </html>
+-- database.sql
+-- MySQL Database Schema for GuviHCL Internship Authentication System
+
+-- Create database
+CREATE DATABASE IF NOT EXISTS internship_app
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+
+-- Use the database
+USE internship_app;
+
+-- Drop existing table if exists (for clean setup)
+DROP TABLE IF EXISTS users;
+
+-- Create users table
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+    -- Indexes for faster queries
+    INDEX idx_email (email),
+    INDEX idx_username (username),
+    INDEX idx_created_at (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Insert sample user for testing (password: test123)
+INSERT INTO users (email, username, password_hash, created_at) VALUES
+('test@example.com', 'testuser', '$2y$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5lNjPXr8Y8lVe', NOW());
+
+-- Verify table structure
+DESCRIBE users;
+
+-- Display success message
+SELECT 'Database and table created successfully!' AS Status;
+
+<?php
+// assets/php/register.php
+// User registration endpoint
+
+require_once __DIR__ . '/config.php';
+
+// Only allow POST requests
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    respondWithError("Method not allowed", 405);
+}
+
+// Get request body
+$data = getRequestBody();
+
+// Extract and sanitize input
+$email = sanitize($data['email'] ?? '');
+$username = sanitize($data['username'] ?? '');
+$password = $data['password'] ?? '';
+
+// Validation
+$errors = [];
+
+// Validate email
+if (empty($email)) {
+    $errors[] = "Email is required";
+} elseif (!isValidEmail($email)) {
+    $errors[] = "Invalid email format";
+}
+
+// Validate username
+if (empty($username)) {
+    $errors[] = "Username is required";
+} elseif (strlen($username) < 3) {
+    $errors[] = "Username must be at least 3 characters";
+} elseif (strlen($username) > 50) {
+    $errors[] = "Username must not exceed 50 characters";
+} elseif (!preg_match('/^[a-zA-Z0-9_]+$/', $username)) {
+    $errors[] = "Username can only contain letters, numbers, and underscores";
+}
+
+// Validate password
+if (empty($password)) {
+    $errors[] = "Password is required";
+} elseif (strlen($password) < 6) {
+    $errors[] = "Password must be at least 6 characters";
+} elseif (strlen($password) > 255) {
+    $errors[] = "Password is too long";
+}
+
+// Return validation errors
+if (!empty($errors)) {
+    respondWithError(implode(", ", $errors), 400);
+}
+
+// Check if email already exists
+$stmt = $mysqli->prepare("SELECT id FROM users WHERE email = ?");
+if (!$stmt) {
+    respondWithError("Database error: " . $mysqli->error, 500);
+}
+
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$stmt->store_result();
+
+if ($stmt->num_rows > 0) {
+    $stmt->close();
+    respondWithError("Email is already registered", 409);
+}
+$stmt->close();
+
+// Check if username already exists
+$stmt = $mysqli->prepare("SELECT id FROM users WHERE username = ?");
+if (!$stmt) {
+    respondWithError("Database error: " . $mysqli->error, 500);
+}
+
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$stmt->store_result();
+
+if ($stmt->num_rows > 0) {
+    $stmt->close();
+    respondWithError("Username is already taken", 409);
+}
+$stmt->close();
+
+// Hash password
+$passwordHash = hashPassword($password);
+
+// Insert user into MySQL
+$stmt = $mysqli->prepare(
+    "INSERT INTO users (email, username, password_hash, created_at) VALUES (?, ?, ?, NOW())"
+);
+
+if (!$stmt) {
+    respondWithError("Database error: " . $mysqli->error, 500);
+}
+
+$stmt->bind_param("sss", $email, $username, $passwordHash);
+
+if (!$stmt->execute()) {
+    $stmt->close();
+    respondWithError("Registration failed: " . $stmt->error, 500);
+}
+
+$userId = $stmt->insert_id;
+$stmt->close();
+
+// Create profile document in MongoDB
+try {
+    if ($profilesCollection) {
+        $profilesCollection->insertOne([
+            'user_id' => $userId,
+            'username' => $username,
+            'email' => $email,
+            'age' => null,
+            'dob' => null,
+            'contact' => null,
+            'address' => null,
+            'bio' => null,
+            'created_at' => new MongoDB\BSON\UTCDateTime(),
+            'updated_at' => new MongoDB\BSON\UTCDateTime()
+        ]);
+    }
+} catch (Exception $e) {
+    // Log error but don't fail registration
+    error_log("MongoDB insert failed: " . $e->getMessage());
+}
+
+// Send success response
+respondWithSuccess("Registration successful! You can now login.", [
+    'user_id' => $userId
+]);
+?>
+
+<?php
+// assets/php/profile.php
+// Profile management endpoint (get, update, logout)
+
+require_once __DIR__ . '/config.php';
+
+// Only allow POST requests
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    respondWithError("Method not allowed", 405);
+}
+
+// Get request body
+$data = getRequestBody();
+
+// Extract action and token
+$action = $data['action'] ?? '';
+$token = $data['token'] ?? '';
+
+// Validate action
+if (empty($action)) {
+    respondWithError("Action is required", 400);
+}
+
+// Validate and get session
+$session = validateSession($token);
+$userId = $session['user_id'];
+
+// ============================================
+// Handle GET action - Fetch profile data
+// ============================================
+if ($action === 'get') {
+    // Fetch user data from MySQL
+    $stmt = $mysqli->prepare(
+        "SELECT id, username, email, created_at FROM users WHERE id = ?"
+    );
+    
+    if (!$stmt) {
+        respondWithError("Database error: " . $mysqli->error, 500);
+    }
+    
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows === 0) {
+        $stmt->close();
+        respondWithError("User not found", 404);
+    }
+    
+    $user = $result->fetch_assoc();
+    $stmt->close();
+    
+    // Fetch profile data from MongoDB
+    $profileData = [
+        'age' => null,
+        'dob' => null,
+        'contact' => null,
+        'address' => null,
+        'bio' => null
+    ];
+    
+    try {
+        if ($profilesCollection) {
+            $profile = $profilesCollection->findOne(['user_id' => $userId]);
+            
+            if ($profile) {
+                $profileData = [
+                    'age' => $profile['age'] ?? null,
+                    'dob' => $profile['dob'] ?? null,
+                    'contact' => $profile['contact'] ?? null,
+                    'address' => $profile['address'] ?? null,
+                    'bio' => $profile['bio'] ?? null
+                ];
+            }
+        }
+    } catch (Exception $e) {
+        error_log("MongoDB fetch failed: " . $e->getMessage());
+    }
+    
+    // Merge data
+    $userData = array_merge($user, $profileData);
+    
+    respondWithSuccess("Profile data retrieved", [
+        'user' => $userData
+    ]);
+}
+
+// ============================================
+// Handle UPDATE action - Update profile data
+// ============================================
+elseif ($action === 'update') {
+    // Extract profile fields
+    $age = isset($data['age']) && $data['age'] !== '' ? (int)$data['age'] : null;
+    $dob = !empty($data['dob']) ? sanitize($data['dob']) : null;
+    $contact = !empty($data['contact']) ? sanitize($data['contact']) : null;
+    $address = !empty($data['address']) ? sanitize($data['address']) : null;
+    $bio = !empty($data['bio']) ? sanitize($data['bio']) : null;
+    
+    // Validate age
+    if ($age !== null && ($age < 1 || $age > 120)) {
+        respondWithError("Age must be between 1 and 120", 400);
+    }
+    
+    // Validate date of birth
+    if ($dob !== null && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $dob)) {
+        respondWithError("Invalid date format for date of birth", 400);
+    }
+    
+    // Update profile in MongoDB
+    try {
+        if ($profilesCollection) {
+            $updateData = [
+                'age' => $age,
+                'dob' => $dob,
+                'contact' => $contact,
+                'address' => $address,
+                'bio' => $bio,
+                'updated_at' => new MongoDB\BSON\UTCDateTime()
+            ];
+            
+            $result = $profilesCollection->updateOne(
+                ['user_id' => $userId],
+                ['$set' => $updateData],
+                ['upsert' => true]
+            );
+            
+            if ($result->getModifiedCount() === 0 && $result->getUpsertedCount() === 0 && $result->getMatchedCount() === 0) {
+                throw new Exception("Update failed");
+            }
+        } else {
+            respondWithError("MongoDB not available", 500);
+        }
+    } catch (Exception $e) {
+        error_log("MongoDB update failed: " . $e->getMessage());
+        respondWithError("Failed to update profile: " . $e->getMessage(), 500);
+    }
+    
+    respondWithSuccess("Profile updated successfully");
+}
+
+// ============================================
+// Handle LOGOUT action - Delete session
+// ============================================
+elseif ($action === 'logout') {
+    // Delete session from Redis
+    deleteSession($token);
+    
+    respondWithSuccess("Logged out successfully");
+}
+
+// ============================================
+// Handle unknown action
+// ============================================
+else {
+    respondWithError("Invalid action: " . $action, 400);
+}
+?>
+
+<?php
+// assets/php/login.php
+// User login endpoint
+
+require_once __DIR__ . '/config.php';
+
+// Only allow POST requests
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    respondWithError("Method not allowed", 405);
+}
+
+// Get request body
+$data = getRequestBody();
+
+// Extract and sanitize input
+$emailOrUsername = sanitize($data['emailOrUsername'] ?? '');
+$password = $data['password'] ?? '';
+
+// Validation
+if (empty($emailOrUsername)) {
+    respondWithError("Email or username is required", 400);
+}
+
+if (empty($password)) {
+    respondWithError("Password is required", 400);
+}
+
+// Determine if input is email or username
+$isEmail = isValidEmail($emailOrUsername);
+
+// Prepare SQL query based on input type
+if ($isEmail) {
+    $stmt = $mysqli->prepare(
+        "SELECT id, username, email, password_hash, created_at FROM users WHERE email = ?"
+    );
+} else {
+    $stmt = $mysqli->prepare(
+        "SELECT id, username, email, password_hash, created_at FROM users WHERE username = ?"
+    );
+}
+
+if (!$stmt) {
+    respondWithError("Database error: " . $mysqli->error, 500);
+}
+
+$stmt->bind_param("s", $emailOrUsername);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Check if user exists
+if ($result->num_rows === 0) {
+    $stmt->close();
+    respondWithError("Invalid email/username or password", 401);
+}
+
+$user = $result->fetch_assoc();
+$stmt->close();
+
+// Verify password
+if (!verifyPassword($password, $user['password_hash'])) {
+    respondWithError("Invalid email/username or password", 401);
+}
+
+// Generate session token
+$token = generateToken(32);
+
+// Prepare session data
+$sessionData = [
+    'user_id' => $user['id'],
+    'username' => $user['username'],
+    'email' => $user['email'],
+    'logged_in_at' => date('Y-m-d H:i:s')
+];
+
+// Store session in Redis (1 hour expiry)
+$sessionStored = storeSession($token, $sessionData, 3600);
+
+if (!$sessionStored) {
+    // If Redis fails, still allow login but log the error
+    error_log("Warning: Session not stored in Redis for user " . $user['id']);
+}
+
+// Send success response with token
+respondWithSuccess("Login successful", [
+    'token' => $token,
+    'user' => [
+        'id' => $user['id'],
+        'username' => $user['username'],
+        'email' => $user['email']
+    ]
+]);
+?>
+
+<?php
+// assets/php/config.php
+// Database configuration and connections
+
+// Set JSON response header
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
+
+// Error reporting (disable in production)
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+
+// ============================================
+// MySQL Configuration
+// ============================================
+define('DB_HOST', 'localhost');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+define('DB_NAME', 'internship_app');
+
+// MySQL Connection
+$mysqli = null;
+try {
+    $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+    
+    if ($mysqli->connect_errno) {
+        throw new Exception("MySQL connection failed: " . $mysqli->connect_error);
+    }
+    
+    $mysqli->set_charset("utf8mb4");
+} catch (Exception $e) {
+    respondWithError("Database connection failed", 500);
+}
+
+// ============================================
+// Redis Configuration
+// ============================================
+$redis = null;
+try {
+    $redis = new Redis();
+    $redis->connect('127.0.0.1', 6379);
+    
+    // Test connection
+    $redis->ping();
+} catch (Exception $e) {
+    // Redis not available - log error but continue
+    error_log("Redis connection failed: " . $e->getMessage());
+}
+
+// ============================================
+// MongoDB Configuration
+// ============================================
+$mongoClient = null;
+$mongoDb = null;
+$profilesCollection = null;
+
+try {
+    // Check if MongoDB library is available
+    if (!class_exists('MongoDB\Client')) {
+        throw new Exception("MongoDB library not installed");
+    }
+    
+    require_once __DIR__ . '/../../vendor/autoload.php';
+    
+    $mongoClient = new MongoDB\Client("mongodb://127.0.0.1:27017");
+    $mongoDb = $mongoClient->internship_app;
+    $profilesCollection = $mongoDb->profiles;
+} catch (Exception $e) {
+    // MongoDB not available - log error but continue
+    error_log("MongoDB connection failed: " . $e->getMessage());
+}
+
+// ============================================
+// Helper Functions
+// ============================================
+
+/**
+ * Send JSON response and exit
+ */
+function respond($data, $statusCode = 200) {
+    http_response_code($statusCode);
+    echo json_encode($data);
+    exit;
+}
+
+/**
+ * Send error response and exit
+ */
+function respondWithError($message, $statusCode = 400) {
+    respond([
+        'success' => false,
+        'message' => $message
+    ], $statusCode);
+}
+
+/**
+ * Send success response and exit
+ */
+function respondWithSuccess($message, $data = []) {
+    respond(array_merge([
+        'success' => true,
+        'message' => $message
+    ], $data));
+}
+
+/**
+ * Validate email format
+ */
+function isValidEmail($email) {
+    return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
+}
+
+/**
+ * Sanitize input string
+ */
+function sanitize($input) {
+    return htmlspecialchars(strip_tags(trim($input)), ENT_QUOTES, 'UTF-8');
+}
+
+/**
+ * Generate secure random token
+ */
+function generateToken($length = 64) {
+    return bin2hex(random_bytes($length));
+}
+
+/**
+ * Hash password
+ */
+function hashPassword($password) {
+    return password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
+}
+
+/**
+ * Verify password
+ */
+function verifyPassword($password, $hash) {
+    return password_verify($password, $hash);
+}
+
+/**
+ * Store session in Redis
+ */
+function storeSession($token, $userData, $expiry = 3600) {
+    global $redis;
+    
+    if (!$redis) {
+        return false;
+    }
+    
+    try {
+        $sessionKey = "session:" . $token;
+        $sessionData = json_encode($userData);
+        return $redis->setex($sessionKey, $expiry, $sessionData);
+    } catch (Exception $e) {
+        error_log("Redis store failed: " . $e->getMessage());
+        return false;
+    }
+}
+
+/**
+ * Get session from Redis
+ */
+function getSession($token) {
+    global $redis;
+    
+    if (!$redis) {
+        return null;
+    }
+    
+    try {
+        $sessionKey = "session:" . $token;
+        $sessionData = $redis->get($sessionKey);
+        
+        if ($sessionData) {
+            // Refresh expiry
+            $redis->expire($sessionKey, 3600);
+            return json_decode($sessionData, true);
+        }
+        
+        return null;
+    } catch (Exception $e) {
+        error_log("Redis get failed: " . $e->getMessage());
+        return null;
+    }
+}
+
+/**
+ * Delete session from Redis
+ */
+function deleteSession($token) {
+    global $redis;
+    
+    if (!$redis) {
+        return false;
+    }
+    
+    try {
+        $sessionKey = "session:" . $token;
+        return $redis->del($sessionKey) > 0;
+    } catch (Exception $e) {
+        error_log("Redis delete failed: " . $e->getMessage());
+        return false;
+    }
+}
+
+/**
+ * Validate session token
+ */
+function validateSession($token) {
+    if (empty($token)) {
+        respondWithError("Session token is required", 401);
+    }
+    
+    $session = getSession($token);
+    
+    if (!$session) {
+        respondWithError("Invalid or expired session", 401);
+    }
+    
+    return $session;
+}
+
+/**
+ * Get request body as JSON
+ */
+function getRequestBody() {
+    $input = file_get_contents('php://input');
+    $data = json_decode($input, true);
+    
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        respondWithError("Invalid JSON in request body", 400);
+    }
+    
+    return $data;
+}
+
+// ============================================
+// Handle preflight requests
+// ============================================
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
+?>
+// assets/js/register.js
+// Registration form handler using jQuery AJAX
+
+$(document).ready(function () {
+    const $form = $('#register-form');
+    const $submitBtn = $('#submit-btn');
+    const $btnText = $submitBtn.find('.btn-text');
+    const $spinner = $submitBtn.find('.spinner-border');
+    const $alertContainer = $('#alert-container');
+
+    // Email validation regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Show alert message
+    function showAlert(message, type = 'danger') {
+        $alertContainer.html(`
+            <div class="alert alert-${type} alert-custom alert-dismissible fade show" role="alert">
+                <strong>${type === 'success' ? 'Success!' : 'Error!'}</strong> ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        `);
+
+        // Scroll to alert
+        $alertContainer[0].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // Clear alert
+    function clearAlert() {
+        $alertContainer.empty();
+    }
+
+    // Validate email format
+    function isValidEmail(email) {
+        return emailRegex.test(email);
+    }
+
+    // Validate password strength
+    function isValidPassword(password) {
+        return password.length >= 6;
+    }
+
+    // Set field as invalid
+    function setInvalid($field, message) {
+        $field.addClass('is-invalid');
+        $field.siblings('.invalid-feedback').text(message);
+    }
+
+    // Clear field validation
+    function clearValidation($field) {
+        $field.removeClass('is-invalid');
+    }
+
+    // Clear all validations
+    function clearAllValidations() {
+        $('.form-control').removeClass('is-invalid');
+    }
+
+    // Validate form
+    function validateForm() {
+        let isValid = true;
+        clearAllValidations();
+        clearAlert();
+
+        // Get form values
+        const email = $('#email').val().trim();
+        const username = $('#username').val().trim();
+        const password = $('#password').val();
+        const confirmPassword = $('#confirm-password').val();
+
+        // Validate email
+        if (!email) {
+            setInvalid($('#email'), 'Email is required');
+            isValid = false;
+        } else if (!isValidEmail(email)) {
+            setInvalid($('#email'), 'Please enter a valid email address');
+            isValid = false;
+        }
+
+        // Validate username
+        if (!username) {
+            setInvalid($('#username'), 'Username is required');
+            isValid = false;
+        } else if (username.length < 3) {
+            setInvalid($('#username'), 'Username must be at least 3 characters');
+            isValid = false;
+        }
+
+        // Validate password
+        if (!password) {
+            setInvalid($('#password'), 'Password is required');
+            isValid = false;
+        } else if (!isValidPassword(password)) {
+            setInvalid($('#password'), 'Password must be at least 6 characters');
+            isValid = false;
+        }
+
+        // Validate confirm password
+        if (!confirmPassword) {
+            setInvalid($('#confirm-password'), 'Please confirm your password');
+            isValid = false;
+        } else if (password !== confirmPassword) {
+            setInvalid($('#confirm-password'), 'Passwords do not match');
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    // Handle form submission
+    $form.on('submit', function (e) {
+        e.preventDefault();
+
+        // Validate form
+        if (!validateForm()) {
+            return;
+        }
+
+        // Disable submit button
+        $submitBtn.prop('disabled', true);
+        $btnText.addClass('d-none');
+        $spinner.removeClass('d-none');
+
+        // Prepare data
+        const formData = {
+            email: $('#email').val().trim(),
+            username: $('#username').val().trim(),
+            password: $('#password').val()
+        };
+
+        // Send AJAX request
+        $.ajax({
+            url: 'assets/php/register.php',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(formData),
+            dataType: 'json',
+            success: function (response) {
+                if (response.success) {
+                    showAlert(response.message || 'Registration successful! Redirecting to login...', 'success');
+
+                    // Reset form
+                    $form[0].reset();
+
+                    // Redirect to login after 2 seconds
+                    setTimeout(function () {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                } else {
+                    showAlert(response.message || 'Registration failed. Please try again.', 'danger');
+
+                    // Re-enable button
+                    $submitBtn.prop('disabled', false);
+                    $btnText.removeClass('d-none');
+                    $spinner.addClass('d-none');
+                }
+            },
+            error: function (xhr) {
+                let errorMessage = 'An error occurred. Please try again.';
+
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMessage = xhr.responseJSON.message;
+                } else if (xhr.status === 0) {
+                    errorMessage = 'Network error. Please check your connection.';
+                } else if (xhr.status === 500) {
+                    errorMessage = 'Server error. Please try again later.';
+                }
+
+                showAlert(errorMessage, 'danger');
+
+                // Re-enable button
+                $submitBtn.prop('disabled', false);
+                $btnText.removeClass('d-none');
+                $spinner.addClass('d-none');
+            }
+        });
+    });
+
+    // Real-time validation on input
+    $('#email').on('blur', function () {
+        const email = $(this).val().trim();
+        if (email && !isValidEmail(email)) {
+            setInvalid($(this), 'Please enter a valid email address');
+        } else {
+            clearValidation($(this));
+        }
+    });
+
+    $('#username').on('blur', function () {
+        const username = $(this).val().trim();
+        if (username && username.length < 3) {
+            setInvalid($(this), 'Username must be at least 3 characters');
+        } else {
+            clearValidation($(this));
+        }
+    });
+
+    $('#password').on('blur', function () {
+        const password = $(this).val();
+        if (password && !isValidPassword(password)) {
+            setInvalid($(this), 'Password must be at least 6 characters');
+        } else {
+            clearValidation($(this));
+        }
+    });
+
+    $('#confirm-password').on('blur', function () {
+        const password = $('#password').val();
+        const confirmPassword = $(this).val();
+        if (confirmPassword && password !== confirmPassword) {
+            setInvalid($(this), 'Passwords do not match');
+        } else {
+            clearValidation($(this));
+        }
+    });
+
+    // Clear validation on input
+    $('.form-control').on('input', function () {
+        clearValidation($(this));
+    });
+});
+
+// assets/js/profile.js
+// Profile page handler using jQuery AJAX
+
+$(document).ready(function () {
+    const $form = $('#profile-form');
+    const $submitBtn = $('#submit-btn');
+    const $btnText = $submitBtn.find('.btn-text');
+    const $spinner = $submitBtn.find('.spinner-border');
+    const $alertContainer = $('#alert-container');
+    const $logoutBtn = $('#logout-btn');
+
+    // Check if user is logged in
+    const sessionToken = localStorage.getItem('sessionToken');
+    if (!sessionToken) {
+        // Redirect to login if not logged in
+        window.location.href = 'login.html';
+        return;
+    }
+
+    // Show alert message
+    function showAlert(message, type = 'success') {
+        $alertContainer.html(`
+            <div class="alert alert-${type} alert-custom alert-dismissible fade show" role="alert">
+                <strong>${type === 'success' ? 'Success!' : type === 'info' ? 'Info!' : 'Error!'}</strong> ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        `);
+
+        // Auto dismiss after 5 seconds
+        setTimeout(function () {
+            $alertContainer.find('.alert').fadeOut(300, function () {
+                $(this).remove();
+            });
+        }, 5000);
+    }
+
+    // Clear alert
+    function clearAlert() {
+        $alertContainer.empty();
+    }
+
+    // Load profile data
+    function loadProfile() {
+        $.ajax({
+            url: 'assets/php/profile.php',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                action: 'get',
+                token: sessionToken
+            }),
+            dataType: 'json',
+            success: function (response) {
+                if (response.success && response.user) {
+                    const user = response.user;
+
+                    // Populate form fields
+                    $('#username').val(user.username || '');
+                    $('#email').val(user.email || '');
+                    $('#age').val(user.age || '');
+                    $('#dob').val(user.dob || '');
+                    $('#contact').val(user.contact || '');
+                    $('#address').val(user.address || '');
+                    $('#bio').val(user.bio || '');
+
+                    // Update display name and email
+                    $('#display-name').text(user.username || 'User');
+                    $('#display-email').text(user.email || '');
+
+                    // Update avatar initial
+                    const initial = (user.username || 'U').charAt(0).toUpperCase();
+                    $('#avatar-initial').text(initial);
+
+                    // Update member since date
+                    if (user.created_at) {
+                        const date = new Date(user.created_at);
+                        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                        $('#member-since').text(date.toLocaleDateString('en-US', options));
+                    }
+                } else {
+                    showAlert(response.message || 'Failed to load profile data.', 'danger');
+
+                    // If session invalid, redirect to login
+                    if (response.message && response.message.toLowerCase().includes('session')) {
+                        setTimeout(function () {
+                            localStorage.removeItem('sessionToken');
+                            window.location.href = 'login.html';
+                        }, 2000);
+                    }
+                }
+            },
+            error: function (xhr) {
+                let errorMessage = 'Failed to load profile data.';
+
+                if (xhr.status === 401) {
+                    errorMessage = 'Session expired. Redirecting to login...';
+                    localStorage.removeItem('sessionToken');
+                    setTimeout(function () {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                } else if (xhr.status === 0) {
+                    errorMessage = 'Network error. Please check your connection.';
+                }
+
+                showAlert(errorMessage, 'danger');
+            }
+        });
+    }
+
+    // Update profile data
+    function updateProfile() {
+        // Validate age if provided
+        const age = $('#age').val();
+        if (age && (age < 1 || age > 120)) {
+            showAlert('Please enter a valid age (1-120).', 'danger');
+            return;
+        }
+
+        // Disable submit button
+        $submitBtn.prop('disabled', true);
+        $btnText.addClass('d-none');
+        $spinner.removeClass('d-none');
+
+        // Prepare data
+        const formData = {
+            action: 'update',
+            token: sessionToken,
+            age: $('#age').val() || null,
+            dob: $('#dob').val() || null,
+            contact: $('#contact').val().trim() || null,
+            address: $('#address').val().trim() || null,
+            bio: $('#bio').val().trim() || null
+        };
+
+        // Send AJAX request
+        $.ajax({
+            url: 'assets/php/profile.php',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(formData),
+            dataType: 'json',
+            success: function (response) {
+                if (response.success) {
+                    showAlert(response.message || 'Profile updated successfully!', 'success');
+
+                    // Reload profile data to ensure consistency
+                    loadProfile();
+                } else {
+                    showAlert(response.message || 'Failed to update profile.', 'danger');
+                }
+
+                // Re-enable button
+                $submitBtn.prop('disabled', false);
+                $btnText.removeClass('d-none');
+                $spinner.addClass('d-none');
+            },
+            error: function (xhr) {
+                let errorMessage = 'Failed to update profile.';
+
+                if (xhr.status === 401) {
+                    errorMessage = 'Session expired. Redirecting to login...';
+                    localStorage.removeItem('sessionToken');
+                    setTimeout(function () {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                } else if (xhr.status === 0) {
+                    errorMessage = 'Network error. Please check your connection.';
+                } else if (xhr.status === 500) {
+                    errorMessage = 'Server error. Please try again later.';
+                }
+
+                showAlert(errorMessage, 'danger');
+
+                // Re-enable button
+                $submitBtn.prop('disabled', false);
+                $btnText.removeClass('d-none');
+                $spinner.addClass('d-none');
+            }
+        });
+    }
+
+    // Handle logout
+    function handleLogout() {
+        $.ajax({
+            url: 'assets/php/profile.php',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                action: 'logout',
+                token: sessionToken
+            }),
+            dataType: 'json',
+            complete: function () {
+                // Clear local storage and redirect
+                localStorage.removeItem('sessionToken');
+                localStorage.removeItem('rememberUser');
+                window.location.href = 'login.html';
+            }
+        });
+    }
+
+    // Event Handlers
+
+    // Form submission
+    $form.on('submit', function (e) {
+        e.preventDefault();
+        clearAlert();
+        updateProfile();
+    });
+
+    // Logout button
+    $logoutBtn.on('click', function (e) {
+        e.preventDefault();
+
+        if (confirm('Are you sure you want to logout?')) {
+            handleLogout();
+        }
+    });
+
+    // Age validation on input
+    $('#age').on('input', function () {
+        const age = $(this).val();
+        if (age && (age < 1 || age > 120)) {
+            $(this).addClass('is-invalid');
+        } else {
+            $(this).removeClass('is-invalid');
+        }
+    });
+
+    // Phone number formatting (simple)
+    $('#contact').on('input', function () {
+        let value = $(this).val().replace(/\D/g, '');
+        if (value.length > 10) {
+            value = value.substring(0, 10);
+        }
+        // Optional: Format as (XXX) XXX-XXXX
+        // Leaving as simple for flexibility
+        $(this).val(value);
+    });
+
+    // Initialize: Load profile data on page load
+    loadProfile();
+});
+
+// assets/js/login.js
+// Login form handler using jQuery AJAX
+
+$(document).ready(function () {
+    const $form = $('#login-form');
+    const $submitBtn = $('#submit-btn');
+    const $btnText = $submitBtn.find('.btn-text');
+    const $spinner = $submitBtn.find('.spinner-border');
+    const $alertContainer = $('#alert-container');
+    const $rememberMe = $('#remember-me');
+
+    // Check if user is already logged in
+    const sessionToken = localStorage.getItem('sessionToken');
+    if (sessionToken) {
+        // Redirect to profile if already logged in
+        window.location.href = 'profile.html';
+        return;
+    }
+
+    // Show alert message
+    function showAlert(message, type = 'danger') {
+        $alertContainer.html(`
+            <div class="alert alert-${type} alert-custom alert-dismissible fade show" role="alert">
+                <strong>${type === 'success' ? 'Success!' : 'Error!'}</strong> ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        `);
+
+        // Scroll to alert
+        $alertContainer[0].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // Clear alert
+    function clearAlert() {
+        $alertContainer.empty();
+    }
+
+    // Set field as invalid
+    function setInvalid($field, message) {
+        $field.addClass('is-invalid');
+        $field.siblings('.invalid-feedback').text(message);
+    }
+
+    // Clear field validation
+    function clearValidation($field) {
+        $field.removeClass('is-invalid');
+    }
+
+    // Clear all validations
+    function clearAllValidations() {
+        $('.form-control').removeClass('is-invalid');
+    }
+
+    // Validate form
+    function validateForm() {
+        let isValid = true;
+        clearAllValidations();
+        clearAlert();
+
+        // Get form values
+        const emailOrUsername = $('#emailOrUsername').val().trim();
+        const password = $('#password').val();
+
+        // Validate email/username
+        if (!emailOrUsername) {
+            setInvalid($('#emailOrUsername'), 'Email or username is required');
+            isValid = false;
+        }
+
+        // Validate password
+        if (!password) {
+            setInvalid($('#password'), 'Password is required');
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    // Handle form submission
+    $form.on('submit', function (e) {
+        e.preventDefault();
+
+        // Validate form
+        if (!validateForm()) {
+            return;
+        }
+
+        // Disable submit button
+        $submitBtn.prop('disabled', true);
+        $btnText.addClass('d-none');
+        $spinner.removeClass('d-none');
+
+        // Prepare data
+        const formData = {
+            emailOrUsername: $('#emailOrUsername').val().trim(),
+            password: $('#password').val()
+        };
+
+        // Send AJAX request
+        $.ajax({
+            url: 'assets/php/login.php',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(formData),
+            dataType: 'json',
+            success: function (response) {
+                if (response.success && response.token) {
+                    // Store session token in localStorage
+                    localStorage.setItem('sessionToken', response.token);
+
+                    // Store user data if remember me is checked
+                    if ($rememberMe.is(':checked')) {
+                        localStorage.setItem('rememberUser', $('#emailOrUsername').val().trim());
+                    } else {
+                        localStorage.removeItem('rememberUser');
+                    }
+
+                    showAlert('Login successful! Redirecting to profile...', 'success');
+
+                    // Redirect to profile after 1.5 seconds
+                    setTimeout(function () {
+                        window.location.href = 'profile.html';
+                    }, 1500);
+                } else {
+                    showAlert(response.message || 'Login failed. Please check your credentials.', 'danger');
+
+                    // Re-enable button
+                    $submitBtn.prop('disabled', false);
+                    $btnText.removeClass('d-none');
+                    $spinner.addClass('d-none');
+                }
+            },
+            error: function (xhr) {
+                let errorMessage = 'An error occurred. Please try again.';
+
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMessage = xhr.responseJSON.message;
+                } else if (xhr.status === 0) {
+                    errorMessage = 'Network error. Please check your connection.';
+                } else if (xhr.status === 401) {
+                    errorMessage = 'Invalid email/username or password.';
+                } else if (xhr.status === 500) {
+                    errorMessage = 'Server error. Please try again later.';
+                }
+
+                showAlert(errorMessage, 'danger');
+
+                // Re-enable button
+                $submitBtn.prop('disabled', false);
+                $btnText.removeClass('d-none');
+                $spinner.addClass('d-none');
+            }
+        });
+    });
+
+    // Load remembered user if exists
+    const rememberedUser = localStorage.getItem('rememberUser');
+    if (rememberedUser) {
+        $('#emailOrUsername').val(rememberedUser);
+        $rememberMe.prop('checked', true);
+    }
+
+    // Clear validation on input
+    $('.form-control').on('input', function () {
+        clearValidation($(this));
+    });
+
+    // Real-time validation on blur
+    $('#emailOrUsername').on('blur', function () {
+        const value = $(this).val().trim();
+        if (!value) {
+            setInvalid($(this), 'This field is required');
+        } else {
+            clearValidation($(this));
+        }
+    });
+
+    $('#password').on('blur', function () {
+        const value = $(this).val();
+        if (!value) {
+            setInvalid($(this), 'Password is required');
+        } else {
+            clearValidation($(this));
+        }
+    });
+});
 
 /* ========================================
    Global Styles & Reset
@@ -1067,1289 +2255,152 @@ a:hover {
     background: var(--secondary-gradient);
 }
 
-// assets/js/register.js
-// Registration form handler using jQuery AJAX
+PS C:\Xammp\htdocs\internship_app> echo "# GUVI_HCL_INTERNSHIP" >> README.md
+>> git init
+>> git add README.md
+>> git commit -m "first commit"
+>> git branch -M main
+>> git remote add origin https://github.com/Abz-05/GUVI_HCL_INTERNSHIP.git
+>> git push -u origin main
+Initialized empty Git repository in C:/Xammp/htdocs/internship_app/.git/
+[master (root-commit) a4df55d] first commit
+ 1 file changed, 596 insertions(+)
+ create mode 100644 README.md
+Enumerating objects: 3, done.
+Counting objects: 100% (3/3), done.
+Delta compression using up to 16 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 5.05 KiB | 5.05 MiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+To https://github.com/Abz-05/GUVI_HCL_INTERNSHIP.git
+ * [new branch]      main -> main
+branch 'main' set up to track 'origin/main'.
+PS C:\Xammp\htdocs\internship_app> git push .
+Everything up-to-date
+PS C:\Xammp\htdocs\internship_app> git commit  
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        app.txt
+        assets/
+        database.sql
+        index.html
+        login.html
+        profile.html
+        register.html
+
+nothing added to commit but untracked files present (use "git add" to track)
+PS C:\Xammp\htdocs\internship_app> git push .
+Everything up-to-date
+PS C:\Xammp\htdocs\internship_app> git add .
+>>
+PS C:\Xammp\htdocs\internship_app> git commit -m "Added project files"
+>>
+[main 108cfff] Added project files
+ 14 files changed, 4571 insertions(+)
+ create mode 100644 app.txt
+ create mode 100644 assets/css/style.css
+ create mode 100644 assets/js/login.js
+ create mode 100644 assets/js/profile.js
+ create mode 100644 assets/js/register.js
+ create mode 100644 assets/php/config.php
+ create mode 100644 assets/php/login.php
+ create mode 100644 assets/php/profile.php
+ create mode 100644 assets/php/register.php
+ create mode 100644 database.sql
+ create mode 100644 index.html
+ create mode 100644 login.html
+ create mode 100644 profile.html
+ create mode 100644 register.html
+PS C:\Xammp\htdocs\internship_app> git push origin main
+>>
+Enumerating objects: 21, done.
+Counting objects: 100% (21/21), done.
+Delta compression using up to 16 threads
+Compressing objects: 100% (19/19), done.
+Writing objects: 100% (20/20), 16.02 KiB | 1.33 MiB/s, done.
+Total 20 (delta 11), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (11/11), done.
+To https://github.com/Abz-05/GUVI_HCL_INTERNSHIP.git
+   a4df55d..108cfff  main -> main
+PS C:\Xammp\htdocs\internship_app> git push origin main
+>>
+Everything up-to-date
+PS C:\Xammp\htdocs\internship_app> git add .
+>> 
+PS C:\Xammp\htdocs\internship_app> git push origin main
+>> 
+To https://github.com/Abz-05/GUVI_HCL_INTERNSHIP.git
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'https://github.com/Abz-05/GUVI_HCL_INTERNSHIP.git'
+hint: Updates were rejected because the remote contains work that you do not
+hint: have locally. This is usually caused by another repository pushing to
+hint: the same ref. If you want to integrate the remote changes, use
+hint: 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+PS C:\Xammp\htdocs\internship_app> git commit -m "Added project files"
+>> 
+[main 7608343] Added project files
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 "\360\237\232\200 Modern Authentication System.pdf"
+PS C:\Xammp\htdocs\internship_app> git push origin main
+>> 
+To https://github.com/Abz-05/GUVI_HCL_INTERNSHIP.git
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'https://github.com/Abz-05/GUVI_HCL_INTERNSHIP.git'
+hint: Updates were rejected because the remote contains work that you do not
+hint: have locally. This is usually caused by another repository pushing to
+hint: the same ref. If you want to integrate the remote changes, use
+hint: 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+PS C:\Xammp\htdocs\internship_app> git push .
+Everything up-to-date
+PS C:\Xammp\htdocs\internship_app> git add .
+>> 
+PS C:\Xammp\htdocs\internship_app> git commit -m "Added project files"
+>> 
+[main 6f792b5] Added project files
+ 3 files changed, 8 insertions(+), 8 deletions(-)
+PS C:\Xammp\htdocs\internship_app> git push .
+Everything up-to-date
+PS C:\Xammp\htdocs\internship_app> git push origin main
+>> 
+To https://github.com/Abz-05/GUVI_HCL_INTERNSHIP.git
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'https://github.com/Abz-05/GUVI_HCL_INTERNSHIP.git'
+hint: Updates were rejected because the remote contains work that you do not
+hint: have locally. This is usually caused by another repository pushing to
+hint: the same ref. If you want to integrate the remote changes, use
+hint: 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+PS C:\Xammp\htdocs\internship_app> # 1. make sure working tree is clean (or stash)
+>> git status
+>>
+>> # if you have uncommitted work:
+>> git add .
+>> git stash       # (optional) save local changes
+>>
+>> # 2. fetch remote
+>> git fetch origin
+>>
+>> # 3. rebase your local commits on top of remote/main
+>> git rebase origin/main
+>>
+>> # If there are conflicts, resolve files, then:
+>> git add <file-with-conflict>
+>> git rebase --continue
+ply:
+>> git stash pop
+>>
+At line:15 char:9
++ git add <file-with-conflict>
++         ~
+The '<' operator is reserved for future use.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : RedirectionNotSupported
+
+PS C:\Xammp\htdocs\internship_app>
 
-$(document).ready(function () {
-    const $form = $('#register-form');
-    const $submitBtn = $('#submit-btn');
-    const $btnText = $submitBtn.find('.btn-text');
-    const $spinner = $submitBtn.find('.spinner-border');
-    const $alertContainer = $('#alert-container');
 
-    // Email validation regex
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    // Show alert message
-    function showAlert(message, type = 'danger') {
-        $alertContainer.html(`
-            <div class="alert alert-${type} alert-custom alert-dismissible fade show" role="alert">
-                <strong>${type === 'success' ? 'Success!' : 'Error!'}</strong> ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        `);
-
-        // Scroll to alert
-        $alertContainer[0].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-
-    // Clear alert
-    function clearAlert() {
-        $alertContainer.empty();
-    }
-
-    // Validate email format
-    function isValidEmail(email) {
-        return emailRegex.test(email);
-    }
-
-    // Validate password strength
-    function isValidPassword(password) {
-        return password.length >= 6;
-    }
-
-    // Set field as invalid
-    function setInvalid($field, message) {
-        $field.addClass('is-invalid');
-        $field.siblings('.invalid-feedback').text(message);
-    }
-
-    // Clear field validation
-    function clearValidation($field) {
-        $field.removeClass('is-invalid');
-    }
-
-    // Clear all validations
-    function clearAllValidations() {
-        $('.form-control').removeClass('is-invalid');
-    }
-
-    // Validate form
-    function validateForm() {
-        let isValid = true;
-        clearAllValidations();
-        clearAlert();
-
-        // Get form values
-        const email = $('#email').val().trim();
-        const username = $('#username').val().trim();
-        const password = $('#password').val();
-        const confirmPassword = $('#confirm-password').val();
-
-        // Validate email
-        if (!email) {
-            setInvalid($('#email'), 'Email is required');
-            isValid = false;
-        } else if (!isValidEmail(email)) {
-            setInvalid($('#email'), 'Please enter a valid email address');
-            isValid = false;
-        }
-
-        // Validate username
-        if (!username) {
-            setInvalid($('#username'), 'Username is required');
-            isValid = false;
-        } else if (username.length < 3) {
-            setInvalid($('#username'), 'Username must be at least 3 characters');
-            isValid = false;
-        }
-
-        // Validate password
-        if (!password) {
-            setInvalid($('#password'), 'Password is required');
-            isValid = false;
-        } else if (!isValidPassword(password)) {
-            setInvalid($('#password'), 'Password must be at least 6 characters');
-            isValid = false;
-        }
-
-        // Validate confirm password
-        if (!confirmPassword) {
-            setInvalid($('#confirm-password'), 'Please confirm your password');
-            isValid = false;
-        } else if (password !== confirmPassword) {
-            setInvalid($('#confirm-password'), 'Passwords do not match');
-            isValid = false;
-        }
-
-        return isValid;
-    }
-
-    // Handle form submission
-    $form.on('submit', function (e) {
-        e.preventDefault();
-
-        // Validate form
-        if (!validateForm()) {
-            return;
-        }
-
-        // Disable submit button
-        $submitBtn.prop('disabled', true);
-        $btnText.addClass('d-none');
-        $spinner.removeClass('d-none');
-
-        // Prepare data
-        const formData = {
-            email: $('#email').val().trim(),
-            username: $('#username').val().trim(),
-            password: $('#password').val()
-        };
-
-        // Send AJAX request
-        $.ajax({
-            url: 'assets/php/register.php',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(formData),
-            dataType: 'json',
-            success: function (response) {
-                if (response.success) {
-                    showAlert(response.message || 'Registration successful! Redirecting to login...', 'success');
-
-                    // Reset form
-                    $form[0].reset();
-
-                    // Redirect to login after 2 seconds
-                    setTimeout(function () {
-                        window.location.href = 'login.html';
-                    }, 2000);
-                } else {
-                    showAlert(response.message || 'Registration failed. Please try again.', 'danger');
-
-                    // Re-enable button
-                    $submitBtn.prop('disabled', false);
-                    $btnText.removeClass('d-none');
-                    $spinner.addClass('d-none');
-                }
-            },
-            error: function (xhr) {
-                let errorMessage = 'An error occurred. Please try again.';
-
-                if (xhr.responseJSON && xhr.responseJSON.message) {
-                    errorMessage = xhr.responseJSON.message;
-                } else if (xhr.status === 0) {
-                    errorMessage = 'Network error. Please check your connection.';
-                } else if (xhr.status === 500) {
-                    errorMessage = 'Server error. Please try again later.';
-                }
-
-                showAlert(errorMessage, 'danger');
-
-                // Re-enable button
-                $submitBtn.prop('disabled', false);
-                $btnText.removeClass('d-none');
-                $spinner.addClass('d-none');
-            }
-        });
-    });
-
-    // Real-time validation on input
-    $('#email').on('blur', function () {
-        const email = $(this).val().trim();
-        if (email && !isValidEmail(email)) {
-            setInvalid($(this), 'Please enter a valid email address');
-        } else {
-            clearValidation($(this));
-        }
-    });
-
-    $('#username').on('blur', function () {
-        const username = $(this).val().trim();
-        if (username && username.length < 3) {
-            setInvalid($(this), 'Username must be at least 3 characters');
-        } else {
-            clearValidation($(this));
-        }
-    });
-
-    $('#password').on('blur', function () {
-        const password = $(this).val();
-        if (password && !isValidPassword(password)) {
-            setInvalid($(this), 'Password must be at least 6 characters');
-        } else {
-            clearValidation($(this));
-        }
-    });
-
-    $('#confirm-password').on('blur', function () {
-        const password = $('#password').val();
-        const confirmPassword = $(this).val();
-        if (confirmPassword && password !== confirmPassword) {
-            setInvalid($(this), 'Passwords do not match');
-        } else {
-            clearValidation($(this));
-        }
-    });
-
-    // Clear validation on input
-    $('.form-control').on('input', function () {
-        clearValidation($(this));
-    });
-});
-
-// assets/js/login.js
-// Login form handler using jQuery AJAX
-
-$(document).ready(function () {
-    const $form = $('#login-form');
-    const $submitBtn = $('#submit-btn');
-    const $btnText = $submitBtn.find('.btn-text');
-    const $spinner = $submitBtn.find('.spinner-border');
-    const $alertContainer = $('#alert-container');
-    const $rememberMe = $('#remember-me');
-
-    // Check if user is already logged in
-    const sessionToken = localStorage.getItem('sessionToken');
-    if (sessionToken) {
-        // Redirect to profile if already logged in
-        window.location.href = 'profile.html';
-        return;
-    }
-
-    // Show alert message
-    function showAlert(message, type = 'danger') {
-        $alertContainer.html(`
-            <div class="alert alert-${type} alert-custom alert-dismissible fade show" role="alert">
-                <strong>${type === 'success' ? 'Success!' : 'Error!'}</strong> ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        `);
-
-        // Scroll to alert
-        $alertContainer[0].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-
-    // Clear alert
-    function clearAlert() {
-        $alertContainer.empty();
-    }
-
-    // Set field as invalid
-    function setInvalid($field, message) {
-        $field.addClass('is-invalid');
-        $field.siblings('.invalid-feedback').text(message);
-    }
-
-    // Clear field validation
-    function clearValidation($field) {
-        $field.removeClass('is-invalid');
-    }
-
-    // Clear all validations
-    function clearAllValidations() {
-        $('.form-control').removeClass('is-invalid');
-    }
-
-    // Validate form
-    function validateForm() {
-        let isValid = true;
-        clearAllValidations();
-        clearAlert();
-
-        // Get form values
-        const emailOrUsername = $('#emailOrUsername').val().trim();
-        const password = $('#password').val();
-
-        // Validate email/username
-        if (!emailOrUsername) {
-            setInvalid($('#emailOrUsername'), 'Email or username is required');
-            isValid = false;
-        }
-
-        // Validate password
-        if (!password) {
-            setInvalid($('#password'), 'Password is required');
-            isValid = false;
-        }
-
-        return isValid;
-    }
-
-    // Handle form submission
-    $form.on('submit', function (e) {
-        e.preventDefault();
-
-        // Validate form
-        if (!validateForm()) {
-            return;
-        }
-
-        // Disable submit button
-        $submitBtn.prop('disabled', true);
-        $btnText.addClass('d-none');
-        $spinner.removeClass('d-none');
-
-        // Prepare data
-        const formData = {
-            emailOrUsername: $('#emailOrUsername').val().trim(),
-            password: $('#password').val()
-        };
-
-        // Send AJAX request
-        $.ajax({
-            url: 'assets/php/login.php',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(formData),
-            dataType: 'json',
-            success: function (response) {
-                if (response.success && response.token) {
-                    // Store session token in localStorage
-                    localStorage.setItem('sessionToken', response.token);
-
-                    // Store user data if remember me is checked
-                    if ($rememberMe.is(':checked')) {
-                        localStorage.setItem('rememberUser', $('#emailOrUsername').val().trim());
-                    } else {
-                        localStorage.removeItem('rememberUser');
-                    }
-
-                    showAlert('Login successful! Redirecting to profile...', 'success');
-
-                    // Redirect to profile after 1.5 seconds
-                    setTimeout(function () {
-                        window.location.href = 'profile.html';
-                    }, 1500);
-                } else {
-                    showAlert(response.message || 'Login failed. Please check your credentials.', 'danger');
-
-                    // Re-enable button
-                    $submitBtn.prop('disabled', false);
-                    $btnText.removeClass('d-none');
-                    $spinner.addClass('d-none');
-                }
-            },
-            error: function (xhr) {
-                let errorMessage = 'An error occurred. Please try again.';
-
-                if (xhr.responseJSON && xhr.responseJSON.message) {
-                    errorMessage = xhr.responseJSON.message;
-                } else if (xhr.status === 0) {
-                    errorMessage = 'Network error. Please check your connection.';
-                } else if (xhr.status === 401) {
-                    errorMessage = 'Invalid email/username or password.';
-                } else if (xhr.status === 500) {
-                    errorMessage = 'Server error. Please try again later.';
-                }
-
-                showAlert(errorMessage, 'danger');
-
-                // Re-enable button
-                $submitBtn.prop('disabled', false);
-                $btnText.removeClass('d-none');
-                $spinner.addClass('d-none');
-            }
-        });
-    });
-
-    // Load remembered user if exists
-    const rememberedUser = localStorage.getItem('rememberUser');
-    if (rememberedUser) {
-        $('#emailOrUsername').val(rememberedUser);
-        $rememberMe.prop('checked', true);
-    }
-
-    // Clear validation on input
-    $('.form-control').on('input', function () {
-        clearValidation($(this));
-    });
-
-    // Real-time validation on blur
-    $('#emailOrUsername').on('blur', function () {
-        const value = $(this).val().trim();
-        if (!value) {
-            setInvalid($(this), 'This field is required');
-        } else {
-            clearValidation($(this));
-        }
-    });
-
-    $('#password').on('blur', function () {
-        const value = $(this).val();
-        if (!value) {
-            setInvalid($(this), 'Password is required');
-        } else {
-            clearValidation($(this));
-        }
-    });
-});
-
-// assets/js/profile.js
-// Profile page handler using jQuery AJAX
-
-$(document).ready(function () {
-    const $form = $('#profile-form');
-    const $submitBtn = $('#submit-btn');
-    const $btnText = $submitBtn.find('.btn-text');
-    const $spinner = $submitBtn.find('.spinner-border');
-    const $alertContainer = $('#alert-container');
-    const $logoutBtn = $('#logout-btn');
-
-    // Check if user is logged in
-    const sessionToken = localStorage.getItem('sessionToken');
-    if (!sessionToken) {
-        // Redirect to login if not logged in
-        window.location.href = 'login.html';
-        return;
-    }
-
-    // Show alert message
-    function showAlert(message, type = 'success') {
-        $alertContainer.html(`
-            <div class="alert alert-${type} alert-custom alert-dismissible fade show" role="alert">
-                <strong>${type === 'success' ? 'Success!' : type === 'info' ? 'Info!' : 'Error!'}</strong> ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        `);
-
-        // Auto dismiss after 5 seconds
-        setTimeout(function () {
-            $alertContainer.find('.alert').fadeOut(300, function () {
-                $(this).remove();
-            });
-        }, 5000);
-    }
-
-    // Clear alert
-    function clearAlert() {
-        $alertContainer.empty();
-    }
-
-    // Load profile data
-    function loadProfile() {
-        $.ajax({
-            url: 'assets/php/profile.php',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({
-                action: 'get',
-                token: sessionToken
-            }),
-            dataType: 'json',
-            success: function (response) {
-                if (response.success && response.user) {
-                    const user = response.user;
-
-                    // Populate form fields
-                    $('#username').val(user.username || '');
-                    $('#email').val(user.email || '');
-                    $('#age').val(user.age || '');
-                    $('#dob').val(user.dob || '');
-                    $('#contact').val(user.contact || '');
-                    $('#address').val(user.address || '');
-                    $('#bio').val(user.bio || '');
-
-                    // Update display name and email
-                    $('#display-name').text(user.username || 'User');
-                    $('#display-email').text(user.email || '');
-
-                    // Update avatar initial
-                    const initial = (user.username || 'U').charAt(0).toUpperCase();
-                    $('#avatar-initial').text(initial);
-
-                    // Update member since date
-                    if (user.created_at) {
-                        const date = new Date(user.created_at);
-                        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-                        $('#member-since').text(date.toLocaleDateString('en-US', options));
-                    }
-                } else {
-                    showAlert(response.message || 'Failed to load profile data.', 'danger');
-
-                    // If session invalid, redirect to login
-                    if (response.message && response.message.toLowerCase().includes('session')) {
-                        setTimeout(function () {
-                            localStorage.removeItem('sessionToken');
-                            window.location.href = 'login.html';
-                        }, 2000);
-                    }
-                }
-            },
-            error: function (xhr) {
-                let errorMessage = 'Failed to load profile data.';
-
-                if (xhr.status === 401) {
-                    errorMessage = 'Session expired. Redirecting to login...';
-                    localStorage.removeItem('sessionToken');
-                    setTimeout(function () {
-                        window.location.href = 'login.html';
-                    }, 2000);
-                } else if (xhr.status === 0) {
-                    errorMessage = 'Network error. Please check your connection.';
-                }
-
-                showAlert(errorMessage, 'danger');
-            }
-        });
-    }
-
-    // Update profile data
-    function updateProfile() {
-        // Validate age if provided
-        const age = $('#age').val();
-        if (age && (age < 1 || age > 120)) {
-            showAlert('Please enter a valid age (1-120).', 'danger');
-            return;
-        }
-
-        // Disable submit button
-        $submitBtn.prop('disabled', true);
-        $btnText.addClass('d-none');
-        $spinner.removeClass('d-none');
-
-        // Prepare data
-        const formData = {
-            action: 'update',
-            token: sessionToken,
-            age: $('#age').val() || null,
-            dob: $('#dob').val() || null,
-            contact: $('#contact').val().trim() || null,
-            address: $('#address').val().trim() || null,
-            bio: $('#bio').val().trim() || null
-        };
-
-        // Send AJAX request
-        $.ajax({
-            url: 'assets/php/profile.php',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(formData),
-            dataType: 'json',
-            success: function (response) {
-                if (response.success) {
-                    showAlert(response.message || 'Profile updated successfully!', 'success');
-
-                    // Reload profile data to ensure consistency
-                    loadProfile();
-                } else {
-                    showAlert(response.message || 'Failed to update profile.', 'danger');
-                }
-
-                // Re-enable button
-                $submitBtn.prop('disabled', false);
-                $btnText.removeClass('d-none');
-                $spinner.addClass('d-none');
-            },
-            error: function (xhr) {
-                let errorMessage = 'Failed to update profile.';
-
-                if (xhr.status === 401) {
-                    errorMessage = 'Session expired. Redirecting to login...';
-                    localStorage.removeItem('sessionToken');
-                    setTimeout(function () {
-                        window.location.href = 'login.html';
-                    }, 2000);
-                } else if (xhr.status === 0) {
-                    errorMessage = 'Network error. Please check your connection.';
-                } else if (xhr.status === 500) {
-                    errorMessage = 'Server error. Please try again later.';
-                }
-
-                showAlert(errorMessage, 'danger');
-
-                // Re-enable button
-                $submitBtn.prop('disabled', false);
-                $btnText.removeClass('d-none');
-                $spinner.addClass('d-none');
-            }
-        });
-    }
-
-    // Handle logout
-    function handleLogout() {
-        $.ajax({
-            url: 'assets/php/profile.php',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({
-                action: 'logout',
-                token: sessionToken
-            }),
-            dataType: 'json',
-            complete: function () {
-                // Clear local storage and redirect
-                localStorage.removeItem('sessionToken');
-                localStorage.removeItem('rememberUser');
-                window.location.href = 'login.html';
-            }
-        });
-    }
-
-    // Event Handlers
-
-    // Form submission
-    $form.on('submit', function (e) {
-        e.preventDefault();
-        clearAlert();
-        updateProfile();
-    });
-
-    // Logout button
-    $logoutBtn.on('click', function (e) {
-        e.preventDefault();
-
-        if (confirm('Are you sure you want to logout?')) {
-            handleLogout();
-        }
-    });
-
-    // Age validation on input
-    $('#age').on('input', function () {
-        const age = $(this).val();
-        if (age && (age < 1 || age > 120)) {
-            $(this).addClass('is-invalid');
-        } else {
-            $(this).removeClass('is-invalid');
-        }
-    });
-
-    // Phone number formatting (simple)
-    $('#contact').on('input', function () {
-        let value = $(this).val().replace(/\D/g, '');
-        if (value.length > 10) {
-            value = value.substring(0, 10);
-        }
-        // Optional: Format as (XXX) XXX-XXXX
-        // Leaving as simple for flexibility
-        $(this).val(value);
-    });
-
-    // Initialize: Load profile data on page load
-    loadProfile();
-});
-
-<?php
-// assets/php/config.php
-// Database configuration and connections
-
-// Set JSON response header
-header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
-
-// Error reporting (disable in production)
-error_reporting(E_ALL);
-ini_set('display_errors', 0);
-
-// ============================================
-// MySQL Configuration
-// ============================================
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_NAME', 'internship_app');
-
-// MySQL Connection
-$mysqli = null;
-try {
-    $mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-    
-    if ($mysqli->connect_errno) {
-        throw new Exception("MySQL connection failed: " . $mysqli->connect_error);
-    }
-    
-    $mysqli->set_charset("utf8mb4");
-} catch (Exception $e) {
-    respondWithError("Database connection failed", 500);
-}
-
-// ============================================
-// Redis Configuration
-// ============================================
-$redis = null;
-try {
-    $redis = new Redis();
-    $redis->connect('127.0.0.1', 6379);
-    
-    // Test connection
-    $redis->ping();
-} catch (Exception $e) {
-    // Redis not available - log error but continue
-    error_log("Redis connection failed: " . $e->getMessage());
-}
-
-// ============================================
-// MongoDB Configuration
-// ============================================
-$mongoClient = null;
-$mongoDb = null;
-$profilesCollection = null;
-
-try {
-    // Check if MongoDB library is available
-    if (!class_exists('MongoDB\Client')) {
-        throw new Exception("MongoDB library not installed");
-    }
-    
-    require_once __DIR__ . '/../../vendor/autoload.php';
-    
-    $mongoClient = new MongoDB\Client("mongodb://127.0.0.1:27017");
-    $mongoDb = $mongoClient->internship_app;
-    $profilesCollection = $mongoDb->profiles;
-} catch (Exception $e) {
-    // MongoDB not available - log error but continue
-    error_log("MongoDB connection failed: " . $e->getMessage());
-}
-
-// ============================================
-// Helper Functions
-// ============================================
-
-/**
- * Send JSON response and exit
- */
-function respond($data, $statusCode = 200) {
-    http_response_code($statusCode);
-    echo json_encode($data);
-    exit;
-}
-
-/**
- * Send error response and exit
- */
-function respondWithError($message, $statusCode = 400) {
-    respond([
-        'success' => false,
-        'message' => $message
-    ], $statusCode);
-}
-
-/**
- * Send success response and exit
- */
-function respondWithSuccess($message, $data = []) {
-    respond(array_merge([
-        'success' => true,
-        'message' => $message
-    ], $data));
-}
-
-/**
- * Validate email format
- */
-function isValidEmail($email) {
-    return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
-}
-
-/**
- * Sanitize input string
- */
-function sanitize($input) {
-    return htmlspecialchars(strip_tags(trim($input)), ENT_QUOTES, 'UTF-8');
-}
-
-/**
- * Generate secure random token
- */
-function generateToken($length = 64) {
-    return bin2hex(random_bytes($length));
-}
-
-/**
- * Hash password
- */
-function hashPassword($password) {
-    return password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
-}
-
-/**
- * Verify password
- */
-function verifyPassword($password, $hash) {
-    return password_verify($password, $hash);
-}
-
-/**
- * Store session in Redis
- */
-function storeSession($token, $userData, $expiry = 3600) {
-    global $redis;
-    
-    if (!$redis) {
-        return false;
-    }
-    
-    try {
-        $sessionKey = "session:" . $token;
-        $sessionData = json_encode($userData);
-        return $redis->setex($sessionKey, $expiry, $sessionData);
-    } catch (Exception $e) {
-        error_log("Redis store failed: " . $e->getMessage());
-        return false;
-    }
-}
-
-/**
- * Get session from Redis
- */
-function getSession($token) {
-    global $redis;
-    
-    if (!$redis) {
-        return null;
-    }
-    
-    try {
-        $sessionKey = "session:" . $token;
-        $sessionData = $redis->get($sessionKey);
-        
-        if ($sessionData) {
-            // Refresh expiry
-            $redis->expire($sessionKey, 3600);
-            return json_decode($sessionData, true);
-        }
-        
-        return null;
-    } catch (Exception $e) {
-        error_log("Redis get failed: " . $e->getMessage());
-        return null;
-    }
-}
-
-/**
- * Delete session from Redis
- */
-function deleteSession($token) {
-    global $redis;
-    
-    if (!$redis) {
-        return false;
-    }
-    
-    try {
-        $sessionKey = "session:" . $token;
-        return $redis->del($sessionKey) > 0;
-    } catch (Exception $e) {
-        error_log("Redis delete failed: " . $e->getMessage());
-        return false;
-    }
-}
-
-/**
- * Validate session token
- */
-function validateSession($token) {
-    if (empty($token)) {
-        respondWithError("Session token is required", 401);
-    }
-    
-    $session = getSession($token);
-    
-    if (!$session) {
-        respondWithError("Invalid or expired session", 401);
-    }
-    
-    return $session;
-}
-
-/**
- * Get request body as JSON
- */
-function getRequestBody() {
-    $input = file_get_contents('php://input');
-    $data = json_decode($input, true);
-    
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        respondWithError("Invalid JSON in request body", 400);
-    }
-    
-    return $data;
-}
-
-// ============================================
-// Handle preflight requests
-// ============================================
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit;
-}
-?>
-
-<?php
-// assets/php/register.php
-// User registration endpoint
-
-require_once __DIR__ . '/config.php';
-
-// Only allow POST requests
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    respondWithError("Method not allowed", 405);
-}
-
-// Get request body
-$data = getRequestBody();
-
-// Extract and sanitize input
-$email = sanitize($data['email'] ?? '');
-$username = sanitize($data['username'] ?? '');
-$password = $data['password'] ?? '';
-
-// Validation
-$errors = [];
-
-// Validate email
-if (empty($email)) {
-    $errors[] = "Email is required";
-} elseif (!isValidEmail($email)) {
-    $errors[] = "Invalid email format";
-}
-
-// Validate username
-if (empty($username)) {
-    $errors[] = "Username is required";
-} elseif (strlen($username) < 3) {
-    $errors[] = "Username must be at least 3 characters";
-} elseif (strlen($username) > 50) {
-    $errors[] = "Username must not exceed 50 characters";
-} elseif (!preg_match('/^[a-zA-Z0-9_]+$/', $username)) {
-    $errors[] = "Username can only contain letters, numbers, and underscores";
-}
-
-// Validate password
-if (empty($password)) {
-    $errors[] = "Password is required";
-} elseif (strlen($password) < 6) {
-    $errors[] = "Password must be at least 6 characters";
-} elseif (strlen($password) > 255) {
-    $errors[] = "Password is too long";
-}
-
-// Return validation errors
-if (!empty($errors)) {
-    respondWithError(implode(", ", $errors), 400);
-}
-
-// Check if email already exists
-$stmt = $mysqli->prepare("SELECT id FROM users WHERE email = ?");
-if (!$stmt) {
-    respondWithError("Database error: " . $mysqli->error, 500);
-}
-
-$stmt->bind_param("s", $email);
-$stmt->execute();
-$stmt->store_result();
-
-if ($stmt->num_rows > 0) {
-    $stmt->close();
-    respondWithError("Email is already registered", 409);
-}
-$stmt->close();
-
-// Check if username already exists
-$stmt = $mysqli->prepare("SELECT id FROM users WHERE username = ?");
-if (!$stmt) {
-    respondWithError("Database error: " . $mysqli->error, 500);
-}
-
-$stmt->bind_param("s", $username);
-$stmt->execute();
-$stmt->store_result();
-
-if ($stmt->num_rows > 0) {
-    $stmt->close();
-    respondWithError("Username is already taken", 409);
-}
-$stmt->close();
-
-// Hash password
-$passwordHash = hashPassword($password);
-
-// Insert user into MySQL
-$stmt = $mysqli->prepare(
-    "INSERT INTO users (email, username, password_hash, created_at) VALUES (?, ?, ?, NOW())"
-);
-
-if (!$stmt) {
-    respondWithError("Database error: " . $mysqli->error, 500);
-}
-
-$stmt->bind_param("sss", $email, $username, $passwordHash);
-
-if (!$stmt->execute()) {
-    $stmt->close();
-    respondWithError("Registration failed: " . $stmt->error, 500);
-}
-
-$userId = $stmt->insert_id;
-$stmt->close();
-
-// Create profile document in MongoDB
-try {
-    if ($profilesCollection) {
-        $profilesCollection->insertOne([
-            'user_id' => $userId,
-            'username' => $username,
-            'email' => $email,
-            'age' => null,
-            'dob' => null,
-            'contact' => null,
-            'address' => null,
-            'bio' => null,
-            'created_at' => new MongoDB\BSON\UTCDateTime(),
-            'updated_at' => new MongoDB\BSON\UTCDateTime()
-        ]);
-    }
-} catch (Exception $e) {
-    // Log error but don't fail registration
-    error_log("MongoDB insert failed: " . $e->getMessage());
-}
-
-// Send success response
-respondWithSuccess("Registration successful! You can now login.", [
-    'user_id' => $userId
-]);
-?>
-
-<?php
-// assets/php/login.php
-// User login endpoint
-
-require_once __DIR__ . '/config.php';
-
-// Only allow POST requests
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    respondWithError("Method not allowed", 405);
-}
-
-// Get request body
-$data = getRequestBody();
-
-// Extract and sanitize input
-$emailOrUsername = sanitize($data['emailOrUsername'] ?? '');
-$password = $data['password'] ?? '';
-
-// Validation
-if (empty($emailOrUsername)) {
-    respondWithError("Email or username is required", 400);
-}
-
-if (empty($password)) {
-    respondWithError("Password is required", 400);
-}
-
-// Determine if input is email or username
-$isEmail = isValidEmail($emailOrUsername);
-
-// Prepare SQL query based on input type
-if ($isEmail) {
-    $stmt = $mysqli->prepare(
-        "SELECT id, username, email, password_hash, created_at FROM users WHERE email = ?"
-    );
-} else {
-    $stmt = $mysqli->prepare(
-        "SELECT id, username, email, password_hash, created_at FROM users WHERE username = ?"
-    );
-}
-
-if (!$stmt) {
-    respondWithError("Database error: " . $mysqli->error, 500);
-}
-
-$stmt->bind_param("s", $emailOrUsername);
-$stmt->execute();
-$result = $stmt->get_result();
-
-// Check if user exists
-if ($result->num_rows === 0) {
-    $stmt->close();
-    respondWithError("Invalid email/username or password", 401);
-}
-
-$user = $result->fetch_assoc();
-$stmt->close();
-
-// Verify password
-if (!verifyPassword($password, $user['password_hash'])) {
-    respondWithError("Invalid email/username or password", 401);
-}
-
-// Generate session token
-$token = generateToken(32);
-
-// Prepare session data
-$sessionData = [
-    'user_id' => $user['id'],
-    'username' => $user['username'],
-    'email' => $user['email'],
-    'logged_in_at' => date('Y-m-d H:i:s')
-];
-
-// Store session in Redis (1 hour expiry)
-$sessionStored = storeSession($token, $sessionData, 3600);
-
-if (!$sessionStored) {
-    // If Redis fails, still allow login but log the error
-    error_log("Warning: Session not stored in Redis for user " . $user['id']);
-}
-
-// Send success response with token
-respondWithSuccess("Login successful", [
-    'token' => $token,
-    'user' => [
-        'id' => $user['id'],
-        'username' => $user['username'],
-        'email' => $user['email']
-    ]
-]);
-?>
-
-
-<?php
-// assets/php/profile.php
-// Profile management endpoint (get, update, logout)
-
-require_once __DIR__ . '/config.php';
-
-// Only allow POST requests
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    respondWithError("Method not allowed", 405);
-}
-
-// Get request body
-$data = getRequestBody();
-
-// Extract action and token
-$action = $data['action'] ?? '';
-$token = $data['token'] ?? '';
-
-// Validate action
-if (empty($action)) {
-    respondWithError("Action is required", 400);
-}
-
-// Validate and get session
-$session = validateSession($token);
-$userId = $session['user_id'];
-
-// ============================================
-// Handle GET action - Fetch profile data
-// ============================================
-if ($action === 'get') {
-    // Fetch user data from MySQL
-    $stmt = $mysqli->prepare(
-        "SELECT id, username, email, created_at FROM users WHERE id = ?"
-    );
-    
-    if (!$stmt) {
-        respondWithError("Database error: " . $mysqli->error, 500);
-    }
-    
-    $stmt->bind_param("i", $userId);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    
-    if ($result->num_rows === 0) {
-        $stmt->close();
-        respondWithError("User not found", 404);
-    }
-    
-    $user = $result->fetch_assoc();
-    $stmt->close();
-    
-    // Fetch profile data from MongoDB
-    $profileData = [
-        'age' => null,
-        'dob' => null,
-        'contact' => null,
-        'address' => null,
-        'bio' => null
-    ];
-    
-    try {
-        if ($profilesCollection) {
-            $profile = $profilesCollection->findOne(['user_id' => $userId]);
-            
-            if ($profile) {
-                $profileData = [
-                    'age' => $profile['age'] ?? null,
-                    'dob' => $profile['dob'] ?? null,
-                    'contact' => $profile['contact'] ?? null,
-                    'address' => $profile['address'] ?? null,
-                    'bio' => $profile['bio'] ?? null
-                ];
-            }
-        }
-    } catch (Exception $e) {
-        error_log("MongoDB fetch failed: " . $e->getMessage());
-    }
-    
-    // Merge data
-    $userData = array_merge($user, $profileData);
-    
-    respondWithSuccess("Profile data retrieved", [
-        'user' => $userData
-    ]);
-}
-
-// ============================================
-// Handle UPDATE action - Update profile data
-// ============================================
-elseif ($action === 'update') {
-    // Extract profile fields
-    $age = isset($data['age']) && $data['age'] !== '' ? (int)$data['age'] : null;
-    $dob = !empty($data['dob']) ? sanitize($data['dob']) : null;
-    $contact = !empty($data['contact']) ? sanitize($data['contact']) : null;
-    $address = !empty($data['address']) ? sanitize($data['address']) : null;
-    $bio = !empty($data['bio']) ? sanitize($data['bio']) : null;
-    
-    // Validate age
-    if ($age !== null && ($age < 1 || $age > 120)) {
-        respondWithError("Age must be between 1 and 120", 400);
-    }
-    
-    // Validate date of birth
-    if ($dob !== null && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $dob)) {
-        respondWithError("Invalid date format for date of birth", 400);
-    }
-    
-    // Update profile in MongoDB
-    try {
-        if ($profilesCollection) {
-            $updateData = [
-                'age' => $age,
-                'dob' => $dob,
-                'contact' => $contact,
-                'address' => $address,
-                'bio' => $bio,
-                'updated_at' => new MongoDB\BSON\UTCDateTime()
-            ];
-            
-            $result = $profilesCollection->updateOne(
-                ['user_id' => $userId],
-                ['$set' => $updateData],
-                ['upsert' => true]
-            );
-            
-            if ($result->getModifiedCount() === 0 && $result->getUpsertedCount() === 0 && $result->getMatchedCount() === 0) {
-                throw new Exception("Update failed");
-            }
-        } else {
-            respondWithError("MongoDB not available", 500);
-        }
-    } catch (Exception $e) {
-        error_log("MongoDB update failed: " . $e->getMessage());
-        respondWithError("Failed to update profile: " . $e->getMessage(), 500);
-    }
-    
-    respondWithSuccess("Profile updated successfully");
-}
-
-// ============================================
-// Handle LOGOUT action - Delete session
-// ============================================
-elseif ($action === 'logout') {
-    // Delete session from Redis
-    deleteSession($token);
-    
-    respondWithSuccess("Logged out successfully");
-}
-
-// ============================================
-// Handle unknown action
-// ============================================
-else {
-    respondWithError("Invalid action: " . $action, 400);
-}
-?>

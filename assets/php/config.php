@@ -35,18 +35,13 @@ try {
 }
 
 // ============================================
-// Redis Configuration
+// Session Storage Configuration (File-Based)
 // ============================================
-$redis = null;
-try {
-    $redis = new Redis();
-    $redis->connect('127.0.0.1', 6379);
-    
-    // Test connection
-    $redis->ping();
-} catch (Exception $e) {
-    // Redis not available - log error but continue
-    error_log("Redis connection failed: " . $e->getMessage());
+define('SESSION_DIR', __DIR__ . '/../../sessions');
+
+// Create sessions directory if it doesn't exist
+if (!is_dir(SESSION_DIR)) {
+    mkdir(SESSION_DIR, 0755, true);
 }
 
 // ============================================
@@ -64,12 +59,17 @@ try {
     
     require_once __DIR__ . '/../../vendor/autoload.php';
     
-    $mongoClient = new MongoDB\Client("mongodb://127.0.0.1:27017");
-    $mongoDb = $mongoClient->internship_app;
+    $mongoClient = new MongoDB\Client(
+        "mongodb+srv://abzanavarhath_db_user:Abzu%232005@abzanacluster21.veewqjw.mongodb.net/?retryWrites=true&w=majority&appName=AbzanaCluster21"
+    );
+    
+    $mongoDb = $mongoClient->selectDatabase("internship_app");
     $profilesCollection = $mongoDb->profiles;
+    
 } catch (Exception $e) {
     // MongoDB not available - log error but continue
     error_log("MongoDB connection failed: " . $e->getMessage());
+    $profilesCollection = null;
 }
 
 // ============================================
@@ -141,67 +141,80 @@ function verifyPassword($password, $hash) {
 }
 
 /**
- * Store session in Redis
+ * Store session in file
  */
 function storeSession($token, $userData, $expiry = 3600) {
-    global $redis;
-    
-    if (!$redis) {
-        return false;
-    }
-    
     try {
-        $sessionKey = "session:" . $token;
-        $sessionData = json_encode($userData);
-        return $redis->setex($sessionKey, $expiry, $sessionData);
-    } catch (Exception $e) {
-        error_log("Redis store failed: " . $e->getMessage());
-        return false;
-    }
-}
-
-/**
- * Get session from Redis
- */
-function getSession($token) {
-    global $redis;
-    
-    if (!$redis) {
-        return null;
-    }
-    
-    try {
-        $sessionKey = "session:" . $token;
-        $sessionData = $redis->get($sessionKey);
+        $sessionFile = SESSION_DIR . '/session_' . $token . '.json';
+        $sessionData = [
+            'data' => $userData,
+            'expiry' => time() + $expiry
+        ];
         
-        if ($sessionData) {
-            // Refresh expiry
-            $redis->expire($sessionKey, 3600);
-            return json_decode($sessionData, true);
+        $result = file_put_contents($sessionFile, json_encode($sessionData));
+        
+        if ($result === false) {
+            error_log("Failed to write session file: " . $sessionFile);
+            return false;
         }
         
-        return null;
+        return true;
     } catch (Exception $e) {
-        error_log("Redis get failed: " . $e->getMessage());
+        error_log("Session store failed: " . $e->getMessage());
+        return false;
+    }
+}
+
+/**
+ * Get session from file
+ */
+function getSession($token) {
+    try {
+        $sessionFile = SESSION_DIR . '/session_' . $token . '.json';
+        
+        if (!file_exists($sessionFile)) {
+            return null;
+        }
+        
+        $content = file_get_contents($sessionFile);
+        
+        if ($content === false) {
+            return null;
+        }
+        
+        $data = json_decode($content, true);
+        
+        if (!$data) {
+            return null;
+        }
+        
+        // Check if session has expired
+        if (time() > $data['expiry']) {
+            @unlink($sessionFile);
+            return null;
+        }
+        
+        return $data['data'];
+    } catch (Exception $e) {
+        error_log("Session get failed: " . $e->getMessage());
         return null;
     }
 }
 
 /**
- * Delete session from Redis
+ * Delete session from file
  */
 function deleteSession($token) {
-    global $redis;
-    
-    if (!$redis) {
-        return false;
-    }
-    
     try {
-        $sessionKey = "session:" . $token;
-        return $redis->del($sessionKey) > 0;
+        $sessionFile = SESSION_DIR . '/session_' . $token . '.json';
+        
+        if (file_exists($sessionFile)) {
+            return @unlink($sessionFile);
+        }
+        
+        return true;
     } catch (Exception $e) {
-        error_log("Redis delete failed: " . $e->getMessage());
+        error_log("Session delete failed: " . $e->getMessage());
         return false;
     }
 }
