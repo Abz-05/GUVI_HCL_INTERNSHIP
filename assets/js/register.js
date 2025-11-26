@@ -1,5 +1,5 @@
 // assets/js/register.js
-// Registration form handler using jQuery AJAX
+// Registration form handler using jQuery AJAX (DEBUG VERSION)
 
 $(document).ready(function () {
     const $form = $('#register-form');
@@ -127,6 +127,11 @@ $(document).ready(function () {
             password: $('#password').val()
         };
 
+        // DEBUG: Log request data
+        console.log('=== REGISTRATION REQUEST ===');
+        console.log('URL:', 'assets/php/register.php');
+        console.log('Data:', formData);
+
         // Send AJAX request
         $.ajax({
             url: 'assets/php/register.php',
@@ -135,6 +140,9 @@ $(document).ready(function () {
             data: JSON.stringify(formData),
             dataType: 'json',
             success: function (response) {
+                console.log('=== SUCCESS RESPONSE ===');
+                console.log(response);
+
                 if (response.success) {
                     showAlert(response.message || 'Registration successful! Redirecting to login...', 'success');
 
@@ -154,15 +162,36 @@ $(document).ready(function () {
                     $spinner.addClass('d-none');
                 }
             },
-            error: function (xhr) {
+            error: function (xhr, status, error) {
+                console.log('=== ERROR RESPONSE ===');
+                console.log('Status:', xhr.status);
+                console.log('Status Text:', xhr.statusText);
+                console.log('Response Text:', xhr.responseText);
+                console.log('Error:', error);
+
                 let errorMessage = 'An error occurred. Please try again.';
 
-                if (xhr.responseJSON && xhr.responseJSON.message) {
-                    errorMessage = xhr.responseJSON.message;
-                } else if (xhr.status === 0) {
-                    errorMessage = 'Network error. Please check your connection.';
+                // Try to parse JSON error
+                try {
+                    const errorData = JSON.parse(xhr.responseText);
+                    console.log('Parsed Error:', errorData);
+                    if (errorData.message) {
+                        errorMessage = errorData.message;
+                    }
+                } catch (e) {
+                    console.log('Could not parse error as JSON');
+                    // If not JSON, show raw response
+                    if (xhr.responseText) {
+                        errorMessage = 'Server Error: ' + xhr.responseText.substring(0, 200);
+                    }
+                }
+
+                if (xhr.status === 0) {
+                    errorMessage = 'Network error. Please check your connection. Make sure XAMPP Apache is running.';
+                } else if (xhr.status === 404) {
+                    errorMessage = 'API endpoint not found. Check if register.php exists.';
                 } else if (xhr.status === 500) {
-                    errorMessage = 'Server error. Please try again later.';
+                    errorMessage = 'Server error. Check Apache error log.';
                 }
 
                 showAlert(errorMessage, 'danger');
@@ -217,4 +246,8 @@ $(document).ready(function () {
     $('.form-control').on('input', function () {
         clearValidation($(this));
     });
+
+    // DEBUG: Test if jQuery and page are loaded
+    console.log('Register.js loaded successfully');
+    console.log('jQuery version:', $.fn.jquery);
 });

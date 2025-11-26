@@ -1,3 +1,57 @@
+<?php
+header('Content-Type: application/json');
+
+$tests = [];
+
+// Test 1: MySQL Connection
+try {
+    $mysqli = new mysqli('localhost', 'root', '', 'internship_app');
+    if ($mysqli->connect_errno) {
+        $tests['mysql'] = ['status' => 'FAILED', 'error' => $mysqli->connect_error];
+    } else {
+        $tests['mysql'] = ['status' => 'SUCCESS', 'message' => 'Connected to MySQL'];
+        $mysqli->close();
+    }
+} catch (Exception $e) {
+    $tests['mysql'] = ['status' => 'ERROR', 'error' => $e->getMessage()];
+}
+
+// Test 2: MongoDB Library
+if (file_exists(__DIR__ . '/assets/php/vendor/autoload.php')) {
+    require_once __DIR__ . '/assets/php/vendor/autoload.php';
+    $tests['mongodb_library'] = ['status' => 'SUCCESS', 'message' => 'MongoDB library installed'];
+    
+    // Test 3: MongoDB Connection
+    try {
+        $client = new MongoDB\Client(
+            "mongodb+srv://abzanavarhath_db_user:Abzu%232005@abzanacluster21.veewqjw.mongodb.net/?retryWrites=true&w=majority&appName=AbzanaCluster21"
+        );
+        
+        $client->selectDatabase('admin')->command(['ping' => 1]);
+        $tests['mongodb_connection'] = ['status' => 'SUCCESS', 'message' => 'Connected to MongoDB Atlas'];
+    } catch (Exception $e) {
+        $tests['mongodb_connection'] = ['status' => 'FAILED', 'error' => $e->getMessage()];
+    }
+} else {
+    $tests['mongodb_library'] = ['status' => 'FAILED', 'error' => 'Vendor folder not found - run composer install'];
+}
+
+// Test 4: Sessions Directory
+$sessionDir = __DIR__ . '/sessions';
+if (is_dir($sessionDir) && is_writable($sessionDir)) {
+    $tests['sessions'] = ['status' => 'SUCCESS', 'message' => 'Sessions directory exists and is writable'];
+} else {
+    if (!is_dir($sessionDir)) {
+        mkdir($sessionDir, 0755, true);
+        $tests['sessions'] = ['status' => 'SUCCESS', 'message' => 'Sessions directory created'];
+    } else {
+        $tests['sessions'] = ['status' => 'WARNING', 'message' => 'Sessions directory not writable'];
+    }
+}
+
+echo json_encode($tests, JSON_PRETTY_PRINT);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -106,17 +160,19 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile - GuviHCL Auth System</title>
-    
+
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
+
 <body>
     <div class="page-wrapper">
         <!-- Navbar -->
@@ -131,7 +187,7 @@
                 </button>
             </div>
         </nav>
-        
+
         <div class="container py-5">
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-md-10">
@@ -150,101 +206,67 @@
                                     <p class="text-muted mb-0 small" id="display-email"></p>
                                 </div>
                             </div>
-                            
+
                             <!-- Alert Container -->
                             <div id="alert-container"></div>
-                            
+
                             <!-- Profile Form -->
                             <form id="profile-form" novalidate>
                                 <div class="row">
                                     <!-- Username (Read-only) -->
                                     <div class="col-md-6 mb-3">
                                         <label for="username" class="form-label">Username</label>
-                                        <input 
-                                            type="text" 
-                                            class="form-control form-control-custom" 
-                                            id="username" 
-                                            readonly
-                                        >
+                                        <input type="text" class="form-control form-control-custom" id="username"
+                                            readonly>
                                     </div>
-                                    
+
                                     <!-- Email (Read-only) -->
                                     <div class="col-md-6 mb-3">
                                         <label for="email" class="form-label">Email</label>
-                                        <input 
-                                            type="email" 
-                                            class="form-control form-control-custom" 
-                                            id="email" 
-                                            readonly
-                                        >
+                                        <input type="email" class="form-control form-control-custom" id="email"
+                                            readonly>
                                     </div>
                                 </div>
-                                
+
                                 <div class="row">
                                     <!-- Age -->
                                     <div class="col-md-6 mb-3">
                                         <label for="age" class="form-label">Age</label>
-                                        <input 
-                                            type="number" 
-                                            class="form-control form-control-custom" 
-                                            id="age" 
-                                            placeholder="Enter your age"
-                                            min="1"
-                                            max="120"
-                                        >
+                                        <input type="number" class="form-control form-control-custom" id="age"
+                                            placeholder="Enter your age" min="1" max="120">
                                     </div>
-                                    
+
                                     <!-- Date of Birth -->
                                     <div class="col-md-6 mb-3">
                                         <label for="dob" class="form-label">Date of Birth</label>
-                                        <input 
-                                            type="date" 
-                                            class="form-control form-control-custom" 
-                                            id="dob"
-                                        >
+                                        <input type="date" class="form-control form-control-custom" id="dob">
                                     </div>
                                 </div>
-                                
+
                                 <!-- Contact -->
                                 <div class="mb-3">
                                     <label for="contact" class="form-label">Contact Number</label>
-                                    <input 
-                                        type="tel" 
-                                        class="form-control form-control-custom" 
-                                        id="contact" 
-                                        placeholder="+1 234 567 8900"
-                                    >
+                                    <input type="tel" class="form-control form-control-custom" id="contact"
+                                        placeholder="+1 234 567 8900">
                                 </div>
-                                
+
                                 <!-- Address -->
                                 <div class="mb-3">
                                     <label for="address" class="form-label">Address</label>
-                                    <textarea 
-                                        class="form-control form-control-custom" 
-                                        id="address" 
-                                        rows="3"
-                                        placeholder="Enter your address"
-                                    ></textarea>
+                                    <textarea class="form-control form-control-custom" id="address" rows="3"
+                                        placeholder="Enter your address"></textarea>
                                 </div>
-                                
+
                                 <!-- Bio -->
                                 <div class="mb-4">
                                     <label for="bio" class="form-label">Bio</label>
-                                    <textarea 
-                                        class="form-control form-control-custom" 
-                                        id="bio" 
-                                        rows="3"
-                                        placeholder="Tell us about yourself"
-                                    ></textarea>
+                                    <textarea class="form-control form-control-custom" id="bio" rows="3"
+                                        placeholder="Tell us about yourself"></textarea>
                                 </div>
-                                
+
                                 <!-- Submit Button -->
                                 <div class="d-grid">
-                                    <button 
-                                        type="submit" 
-                                        class="btn btn-primary btn-lg btn-custom"
-                                        id="submit-btn"
-                                    >
+                                    <button type="submit" class="btn btn-primary btn-lg btn-custom" id="submit-btn">
                                         <span class="btn-text">Save Changes</span>
                                         <span class="spinner-border spinner-border-sm d-none" role="status"></span>
                                     </button>
@@ -252,7 +274,7 @@
                             </form>
                         </div>
                     </div>
-                    
+
                     <!-- Account Info Card -->
                     <div class="glass-card">
                         <div class="card-body p-4">
@@ -275,13 +297,14 @@
             </div>
         </div>
     </div>
-    
+
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    
+
     <!-- Custom JS -->
     <script src="assets/js/profile.js"></script>
 </body>
+
 </html>
 
 <!DOCTYPE html>
@@ -386,6 +409,7 @@
 </body>
 
 </html>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -477,6 +501,7 @@
 </body>
 
 </html>
+
 -- database.sql
 -- MySQL Database Schema for GuviHCL Internship Authentication System
 
@@ -519,9 +544,32 @@ SELECT 'Database and table created successfully!' AS Status;
 <?php
 // assets/php/register.php
 // User registration endpoint
+// Allow CORS
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
+header('Content-Type: application/json');
+
+// Handle preflight requests
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
+
+// Only allow POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode(['success' => false, 'message' => 'Method not allowed']);
+    exit;
+}
 
 require_once __DIR__ . '/config.php';
 
+// Rest of your registration code...
+// Log to MongoDB (if available)
+if (function_exists('logToMongo')) {
+    logToMongo($userId, 'REGISTER', ['email' => $email]);
+}
 // Only allow POST requests
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respondWithError("Method not allowed", 405);
@@ -660,6 +708,11 @@ require_once __DIR__ . '/config.php';
 // Only allow POST requests
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respondWithError("Method not allowed", 405);
+}
+
+// Log profile access (if MongoDB available)
+if (function_exists('logToMongo')) {
+    logToMongo($userId, 'PROFILE_UPDATE', []);
 }
 
 // Get request body
@@ -809,6 +862,7 @@ else {
 }
 ?>
 
+
 <?php
 // assets/php/login.php
 // User login endpoint
@@ -819,7 +873,10 @@ require_once __DIR__ . '/config.php';
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     respondWithError("Method not allowed", 405);
 }
-
+// Log successful login (if MongoDB available)
+if (function_exists('logToMongo')) {
+    logToMongo($user['id'], 'LOGIN', ['email' => $email]);
+}
 // Get request body
 $data = getRequestBody();
 
@@ -939,43 +996,68 @@ try {
 }
 
 // ============================================
-// Redis Configuration
+// Session Storage Configuration (File-Based)
 // ============================================
-$redis = null;
-try {
-    $redis = new Redis();
-    $redis->connect('127.0.0.1', 6379);
-    
-    // Test connection
-    $redis->ping();
-} catch (Exception $e) {
-    // Redis not available - log error but continue
-    error_log("Redis connection failed: " . $e->getMessage());
+define('SESSION_DIR', __DIR__ . '/../../sessions');
+
+// Create sessions directory if it doesn't exist
+if (!is_dir(SESSION_DIR)) {
+    mkdir(SESSION_DIR, 0755, true);
 }
 
 // ============================================
-// MongoDB Configuration
+// MongoDB Configuration (Optional)
 // ============================================
 $mongoClient = null;
 $mongoDb = null;
 $profilesCollection = null;
 
-try {
-    // Check if MongoDB library is available
-    if (!class_exists('MongoDB\Client')) {
-        throw new Exception("MongoDB library not installed");
+// Check if MongoDB extension is loaded
+if (extension_loaded('mongodb')) {
+    try {
+        require_once __DIR__ . '/../../vendor/autoload.php';
+        
+        $mongoClient = new MongoDB\Client(
+            "mongodb+srv://abzanavarhath_db_user:Abzu%232005@abzanacluster21.veewqjw.mongodb.net/?retryWrites=true&w=majority&appName=AbzanaCluster21"
+        );
+        
+        $mongoDb = $mongoClient->selectDatabase("internship_app");
+        $profilesCollection = $mongoDb->profiles;
+        
+    } catch (Exception $e) {
+        error_log("MongoDB connection failed: " . $e->getMessage());
+        $profilesCollection = null;
     }
-    
-    require_once __DIR__ . '/../../vendor/autoload.php';
-    
-    $mongoClient = new MongoDB\Client("mongodb://127.0.0.1:27017");
-    $mongoDb = $mongoClient->internship_app;
-    $profilesCollection = $mongoDb->profiles;
-} catch (Exception $e) {
-    // MongoDB not available - log error but continue
-    error_log("MongoDB connection failed: " . $e->getMessage());
+} else {
+    // MongoDB extension not loaded - continue without it
+    error_log("MongoDB extension not loaded - logging will be disabled");
 }
 
+/**
+ * Log to MongoDB (safe wrapper)
+ */
+function logToMongo($userId, $action, $details = []) {
+    global $profilesCollection;
+    
+    if ($profilesCollection === null) {
+        // MongoDB not available - skip logging
+        return false;
+    }
+    
+    try {
+        $profilesCollection->insertOne([
+            'user_id' => $userId,
+            'action' => $action,
+            'details' => $details,
+            'timestamp' => new MongoDB\BSON\UTCDateTime(),
+            'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown'
+        ]);
+        return true;
+    } catch (Exception $e) {
+        error_log("MongoDB logging failed: " . $e->getMessage());
+        return false;
+    }
+}
 // ============================================
 // Helper Functions
 // ============================================
@@ -1045,67 +1127,80 @@ function verifyPassword($password, $hash) {
 }
 
 /**
- * Store session in Redis
+ * Store session in file
  */
 function storeSession($token, $userData, $expiry = 3600) {
-    global $redis;
-    
-    if (!$redis) {
-        return false;
-    }
-    
     try {
-        $sessionKey = "session:" . $token;
-        $sessionData = json_encode($userData);
-        return $redis->setex($sessionKey, $expiry, $sessionData);
-    } catch (Exception $e) {
-        error_log("Redis store failed: " . $e->getMessage());
-        return false;
-    }
-}
-
-/**
- * Get session from Redis
- */
-function getSession($token) {
-    global $redis;
-    
-    if (!$redis) {
-        return null;
-    }
-    
-    try {
-        $sessionKey = "session:" . $token;
-        $sessionData = $redis->get($sessionKey);
+        $sessionFile = SESSION_DIR . '/session_' . $token . '.json';
+        $sessionData = [
+            'data' => $userData,
+            'expiry' => time() + $expiry
+        ];
         
-        if ($sessionData) {
-            // Refresh expiry
-            $redis->expire($sessionKey, 3600);
-            return json_decode($sessionData, true);
+        $result = file_put_contents($sessionFile, json_encode($sessionData));
+        
+        if ($result === false) {
+            error_log("Failed to write session file: " . $sessionFile);
+            return false;
         }
         
-        return null;
+        return true;
     } catch (Exception $e) {
-        error_log("Redis get failed: " . $e->getMessage());
+        error_log("Session store failed: " . $e->getMessage());
+        return false;
+    }
+}
+
+/**
+ * Get session from file
+ */
+function getSession($token) {
+    try {
+        $sessionFile = SESSION_DIR . '/session_' . $token . '.json';
+        
+        if (!file_exists($sessionFile)) {
+            return null;
+        }
+        
+        $content = file_get_contents($sessionFile);
+        
+        if ($content === false) {
+            return null;
+        }
+        
+        $data = json_decode($content, true);
+        
+        if (!$data) {
+            return null;
+        }
+        
+        // Check if session has expired
+        if (time() > $data['expiry']) {
+            @unlink($sessionFile);
+            return null;
+        }
+        
+        return $data['data'];
+    } catch (Exception $e) {
+        error_log("Session get failed: " . $e->getMessage());
         return null;
     }
 }
 
 /**
- * Delete session from Redis
+ * Delete session from file
  */
 function deleteSession($token) {
-    global $redis;
-    
-    if (!$redis) {
-        return false;
-    }
-    
     try {
-        $sessionKey = "session:" . $token;
-        return $redis->del($sessionKey) > 0;
+        $sessionFile = SESSION_DIR . '/session_' . $token . '.json';
+        
+        if (file_exists($sessionFile)) {
+            return @unlink($sessionFile);
+        }
+        
+        return true;
     } catch (Exception $e) {
-        error_log("Redis delete failed: " . $e->getMessage());
+        error_log("Session delete failed: " . $e->getMessage());
         return false;
     }
 }
@@ -1149,6 +1244,241 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 ?>
+
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "cd5d6817fc60f8184a865777d65c0ad4",
+    "packages": [
+        {
+            "name": "mongodb/mongodb",
+            "version": "2.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mongodb/mongo-php-library.git",
+                "reference": "0a2472ba9cbb932f7e43a8770aedb2fc30612a67"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mongodb/mongo-php-library/zipball/0a2472ba9cbb932f7e43a8770aedb2fc30612a67",
+                "reference": "0a2472ba9cbb932f7e43a8770aedb2fc30612a67",
+                "shasum": ""
+            },
+            "require": {
+                "composer-runtime-api": "^2.0",
+                "ext-mongodb": "^2.1",
+                "php": "^8.1",
+                "psr/log": "^1.1.4|^2|^3",
+                "symfony/polyfill-php85": "^1.32"
+            },
+            "replace": {
+                "mongodb/builder": "*"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "^12.0",
+                "phpunit/phpunit": "^10.5.35",
+                "rector/rector": "^2.1.4",
+                "squizlabs/php_codesniffer": "^3.7",
+                "vimeo/psalm": "6.5.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/functions.php"
+                ],
+                "psr-4": {
+                    "MongoDB\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Andreas Braun",
+                    "email": "andreas.braun@mongodb.com"
+                },
+                {
+                    "name": "Jeremy Mikola",
+                    "email": "jmikola@gmail.com"
+                },
+                {
+                    "name": "Jérôme Tamarelle",
+                    "email": "jerome.tamarelle@mongodb.com"
+                }
+            ],
+            "description": "MongoDB driver library",
+            "homepage": "https://jira.mongodb.org/browse/PHPLIB",
+            "keywords": [
+                "database",
+                "driver",
+                "mongodb",
+                "persistence"
+            ],
+            "support": {
+                "issues": "https://github.com/mongodb/mongo-php-library/issues",
+                "source": "https://github.com/mongodb/mongo-php-library/tree/2.1.2"
+            },
+            "time": "2025-10-06T12:12:40+00:00"
+        },
+        {
+            "name": "psr/log",
+            "version": "3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/log.git",
+                "reference": "f16e1d5863e37f8d8c2a01719f5b34baa2b714d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/f16e1d5863e37f8d8c2a01719f5b34baa2b714d3",
+                "reference": "f16e1d5863e37f8d8c2a01719f5b34baa2b714d3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Log\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for logging libraries",
+            "homepage": "https://github.com/php-fig/log",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/log/tree/3.0.2"
+            },
+            "time": "2024-09-11T13:17:53+00:00"
+        },
+        {
+            "name": "symfony/polyfill-php85",
+            "version": "v1.33.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-php85.git",
+                "reference": "d4e5fcd4ab3d998ab16c0db48e6cbb9a01993f91"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-php85/zipball/d4e5fcd4ab3d998ab16c0db48e6cbb9a01993f91",
+                "reference": "d4e5fcd4ab3d998ab16c0db48e6cbb9a01993f91",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Php85\\": ""
+                },
+                "classmap": [
+                    "Resources/stubs"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill backporting some PHP 8.5+ features to lower PHP versions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-php85/tree/v1.33.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2025-06-23T16:12:55+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {},
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {},
+    "platform-dev": {},
+    "plugin-api-version": "2.9.0"
+}
+
+{
+    "require": {
+        "mongodb/mongodb": "^2.1"
+    }
+}
+
+
 // assets/js/register.js
 // Registration form handler using jQuery AJAX
 
@@ -2254,153 +2584,3 @@ a:hover {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--secondary-gradient);
 }
-
-PS C:\Xammp\htdocs\internship_app> echo "# GUVI_HCL_INTERNSHIP" >> README.md
->> git init
->> git add README.md
->> git commit -m "first commit"
->> git branch -M main
->> git remote add origin https://github.com/Abz-05/GUVI_HCL_INTERNSHIP.git
->> git push -u origin main
-Initialized empty Git repository in C:/Xammp/htdocs/internship_app/.git/
-[master (root-commit) a4df55d] first commit
- 1 file changed, 596 insertions(+)
- create mode 100644 README.md
-Enumerating objects: 3, done.
-Counting objects: 100% (3/3), done.
-Delta compression using up to 16 threads
-Compressing objects: 100% (2/2), done.
-Writing objects: 100% (3/3), 5.05 KiB | 5.05 MiB/s, done.
-Total 3 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
-To https://github.com/Abz-05/GUVI_HCL_INTERNSHIP.git
- * [new branch]      main -> main
-branch 'main' set up to track 'origin/main'.
-PS C:\Xammp\htdocs\internship_app> git push .
-Everything up-to-date
-PS C:\Xammp\htdocs\internship_app> git commit  
-On branch main
-Your branch is up to date with 'origin/main'.
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-        app.txt
-        assets/
-        database.sql
-        index.html
-        login.html
-        profile.html
-        register.html
-
-nothing added to commit but untracked files present (use "git add" to track)
-PS C:\Xammp\htdocs\internship_app> git push .
-Everything up-to-date
-PS C:\Xammp\htdocs\internship_app> git add .
->>
-PS C:\Xammp\htdocs\internship_app> git commit -m "Added project files"
->>
-[main 108cfff] Added project files
- 14 files changed, 4571 insertions(+)
- create mode 100644 app.txt
- create mode 100644 assets/css/style.css
- create mode 100644 assets/js/login.js
- create mode 100644 assets/js/profile.js
- create mode 100644 assets/js/register.js
- create mode 100644 assets/php/config.php
- create mode 100644 assets/php/login.php
- create mode 100644 assets/php/profile.php
- create mode 100644 assets/php/register.php
- create mode 100644 database.sql
- create mode 100644 index.html
- create mode 100644 login.html
- create mode 100644 profile.html
- create mode 100644 register.html
-PS C:\Xammp\htdocs\internship_app> git push origin main
->>
-Enumerating objects: 21, done.
-Counting objects: 100% (21/21), done.
-Delta compression using up to 16 threads
-Compressing objects: 100% (19/19), done.
-Writing objects: 100% (20/20), 16.02 KiB | 1.33 MiB/s, done.
-Total 20 (delta 11), reused 0 (delta 0), pack-reused 0 (from 0)
-remote: Resolving deltas: 100% (11/11), done.
-To https://github.com/Abz-05/GUVI_HCL_INTERNSHIP.git
-   a4df55d..108cfff  main -> main
-PS C:\Xammp\htdocs\internship_app> git push origin main
->>
-Everything up-to-date
-PS C:\Xammp\htdocs\internship_app> git add .
->> 
-PS C:\Xammp\htdocs\internship_app> git push origin main
->> 
-To https://github.com/Abz-05/GUVI_HCL_INTERNSHIP.git
- ! [rejected]        main -> main (fetch first)
-error: failed to push some refs to 'https://github.com/Abz-05/GUVI_HCL_INTERNSHIP.git'
-hint: Updates were rejected because the remote contains work that you do not
-hint: have locally. This is usually caused by another repository pushing to
-hint: the same ref. If you want to integrate the remote changes, use
-hint: 'git pull' before pushing again.
-hint: See the 'Note about fast-forwards' in 'git push --help' for details.
-PS C:\Xammp\htdocs\internship_app> git commit -m "Added project files"
->> 
-[main 7608343] Added project files
- 1 file changed, 0 insertions(+), 0 deletions(-)
- create mode 100644 "\360\237\232\200 Modern Authentication System.pdf"
-PS C:\Xammp\htdocs\internship_app> git push origin main
->> 
-To https://github.com/Abz-05/GUVI_HCL_INTERNSHIP.git
- ! [rejected]        main -> main (fetch first)
-error: failed to push some refs to 'https://github.com/Abz-05/GUVI_HCL_INTERNSHIP.git'
-hint: Updates were rejected because the remote contains work that you do not
-hint: have locally. This is usually caused by another repository pushing to
-hint: the same ref. If you want to integrate the remote changes, use
-hint: 'git pull' before pushing again.
-hint: See the 'Note about fast-forwards' in 'git push --help' for details.
-PS C:\Xammp\htdocs\internship_app> git push .
-Everything up-to-date
-PS C:\Xammp\htdocs\internship_app> git add .
->> 
-PS C:\Xammp\htdocs\internship_app> git commit -m "Added project files"
->> 
-[main 6f792b5] Added project files
- 3 files changed, 8 insertions(+), 8 deletions(-)
-PS C:\Xammp\htdocs\internship_app> git push .
-Everything up-to-date
-PS C:\Xammp\htdocs\internship_app> git push origin main
->> 
-To https://github.com/Abz-05/GUVI_HCL_INTERNSHIP.git
- ! [rejected]        main -> main (fetch first)
-error: failed to push some refs to 'https://github.com/Abz-05/GUVI_HCL_INTERNSHIP.git'
-hint: Updates were rejected because the remote contains work that you do not
-hint: have locally. This is usually caused by another repository pushing to
-hint: the same ref. If you want to integrate the remote changes, use
-hint: 'git pull' before pushing again.
-hint: See the 'Note about fast-forwards' in 'git push --help' for details.
-PS C:\Xammp\htdocs\internship_app> # 1. make sure working tree is clean (or stash)
->> git status
->>
->> # if you have uncommitted work:
->> git add .
->> git stash       # (optional) save local changes
->>
->> # 2. fetch remote
->> git fetch origin
->>
->> # 3. rebase your local commits on top of remote/main
->> git rebase origin/main
->>
->> # If there are conflicts, resolve files, then:
->> git add <file-with-conflict>
->> git rebase --continue
-ply:
->> git stash pop
->>
-At line:15 char:9
-+ git add <file-with-conflict>
-+         ~
-The '<' operator is reserved for future use.
-    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
-    + FullyQualifiedErrorId : RedirectionNotSupported
-
-PS C:\Xammp\htdocs\internship_app>
-
-
